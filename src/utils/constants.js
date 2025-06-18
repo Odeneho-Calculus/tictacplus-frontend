@@ -203,8 +203,8 @@ export const STORAGE_KEYS = {
 
 // API Endpoints
 export const API_ENDPOINTS = {
-  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:30789',
-  SOCKET_URL: import.meta.env.VITE_SOCKET_URL || 'http://localhost:30789',
+  BASE_URL: import.meta.env.VITE_API_URL || 'https://172.236.22.145/api',
+  SOCKET_URL: import.meta.env.VITE_SOCKET_URL || 'https://172.236.22.145',
 
   // Authentication
   AUTH: '/api/auth',

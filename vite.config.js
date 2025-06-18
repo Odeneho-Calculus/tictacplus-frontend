@@ -45,12 +45,12 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         '/api': {
-          target: env.VITE_DEV_SERVER_API_TARGET || 'http://localhost:30789',
+          target: env.VITE_DEV_SERVER_API_TARGET || 'https://172.236.22.145',
           changeOrigin: true,
           secure: false,
         },
         '/socket.io': {
-          target: env.VITE_DEV_SERVER_API_TARGET || 'http://localhost:30789',
+          target: env.VITE_SOCKET_URL || 'https://172.236.22.145',
           changeOrigin: true,
           ws: true,
         }

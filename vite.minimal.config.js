@@ -17,7 +17,19 @@ export default defineConfig({
     server: {
         host: true,
         open: true,
-        port: 5174
+        port: 5174,
+        proxy: {
+            '/api': {
+                target: 'https://172.236.22.145',
+                changeOrigin: true,
+                secure: false,
+            },
+            '/socket.io': {
+                target: 'https://172.236.22.145',
+                changeOrigin: true,
+                ws: true,
+            }
+        }
     },
     esbuild: {
         target: 'es2020'
