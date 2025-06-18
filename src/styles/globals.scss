@@ -1,0 +1,265 @@
+@use './variables' as vars;
+@use './mixins' as mix;
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import './animations.scss';
+@import './themes.scss';
+@import './fonts.scss';
+
+// Global reset and base styles
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+body {
+  font-family: vars.$font-primary;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+// Focus styles for accessibility
+:focus {
+  outline: 2px solid vars.$primary-500;
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid vars.$primary-500;
+  outline-offset: 2px;
+}
+
+// Selection styles
+::selection {
+  background: rgba(vars.$primary-500, 0.2);
+  color: inherit;
+}
+
+::-moz-selection {
+  background: rgba(vars.$primary-500, 0.2);
+  color: inherit;
+}
+
+// Scrollbar styles
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(vars.$dark-200, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(vars.$dark-400, 0.5);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(vars.$dark-400, 0.7);
+  }
+}
+
+// Dark theme scrollbar
+[data-theme="dark"] {
+  ::-webkit-scrollbar-track {
+    background: rgba(vars.$dark-700, 0.3);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(vars.$dark-500, 0.6);
+
+    &:hover {
+      background: rgba(vars.$dark-400, 0.8);
+    }
+  }
+}
+
+// Utility classes
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: vars.$primary-600;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+  transition: top 0.3s ease;
+
+  &:focus {
+    top: 6px;
+  }
+}
+
+// Loading states
+.loading {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: wait;
+}
+
+// Disabled states
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+// Glass morphism effect
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+// Glow effects
+.glow {
+  box-shadow: 0 0 20px rgba(vars.$primary-500, 0.3);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 30px rgba(vars.$primary-500, 0.5);
+  }
+}
+
+.glow-success {
+  box-shadow: 0 0 20px rgba(vars.$success, 0.3);
+}
+
+.glow-warning {
+  box-shadow: 0 0 20px rgba(vars.$warning, 0.3);
+}
+
+.glow-error {
+  box-shadow: 0 0 20px rgba(vars.$error, 0.3);
+}
+
+// Neon effects for neon theme
+[data-theme="neon"] {
+  .glow {
+    box-shadow:
+      0 0 5px rgba(vars.$neon-primary, 0.5),
+      0 0 10px rgba(vars.$neon-primary, 0.3),
+      0 0 15px rgba(vars.$neon-primary, 0.2);
+  }
+
+  .glow-accent {
+    box-shadow:
+      0 0 5px rgba(vars.$neon-accent, 0.5),
+      0 0 10px rgba(vars.$neon-accent, 0.3),
+      0 0 15px rgba(vars.$neon-accent, 0.2);
+  }
+}
+
+// Animation utilities
+.animate-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-out {
+  animation: fadeOutDown 0.3s ease-in;
+}
+
+// Responsive utilities
+.mobile-only {
+  @media (min-width: 769px) {
+    display: none !important;
+  }
+}
+
+.desktop-only {
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .glass,
+  .glass-dark {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #000;
+  }
+
+  [data-theme="dark"] {
+    .glass,
+    .glass-dark {
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #fff;
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+// Print styles
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .glass,
+  .glass-dark {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    backdrop-filter: none !important;
+  }
+}

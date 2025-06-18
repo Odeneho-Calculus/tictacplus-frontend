@@ -1,0 +1,744 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.lobby {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 900px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    @include themed() {
+        background: t('bg-secondary');
+        border-color: t('border-color');
+        box-shadow: 0 20px 40px rgba(t('shadow-color'), 0.3);
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+
+    @include themed() {
+        border-color: t('border-color');
+        background: t('bg-tertiary');
+    }
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+
+    @include themed() {
+        color: t('text-primary');
+    }
+}
+
+.icon {
+    color: var(--accent-primary);
+    font-size: 1.25rem;
+
+    @include themed() {
+        color: t('accent-primary');
+    }
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+
+    &:hover {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+
+        @include themed() {
+            background: t('bg-primary');
+            color: t('text-primary');
+        }
+    }
+}
+
+.error {
+    background: rgba(var(--error-rgb), 0.1);
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+    padding: 1rem 2rem;
+    font-size: 0.875rem;
+
+    @include themed() {
+        background: rgba(t('error-rgb'), 0.1);
+        border-color: t('error-color');
+        color: t('error-color');
+    }
+}
+
+.tabs {
+    display: flex;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+
+    @include themed() {
+        background: t('bg-primary');
+        border-color: t('border-color');
+    }
+}
+
+.tab {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+
+    &:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+
+        @include themed() {
+            background: t('bg-tertiary');
+            color: t('text-primary');
+        }
+    }
+
+    &.active {
+        color: var(--accent-primary);
+        background: var(--bg-secondary);
+
+        @include themed() {
+            color: t('accent-primary');
+            background: t('bg-secondary');
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-primary);
+
+            @include themed() {
+                background: t('accent-primary');
+            }
+        }
+    }
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.tabContent {
+    height: 100%;
+}
+
+// Quick Match Tab
+.quickMatchContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 100%;
+}
+
+.playerInfo {
+    display: flex;
+    justify-content: center;
+}
+
+.playerCard {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-tertiary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+
+    @include themed() {
+        background: t('bg-tertiary');
+        border-color: t('border-color');
+    }
+}
+
+.playerAvatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--accent-primary);
+
+    @include themed() {
+        border-color: t('accent-primary');
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.defaultAvatar {
+    width: 100%;
+    height: 100%;
+    background: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    @include themed() {
+        background: t('accent-primary');
+    }
+}
+
+.playerDetails {
+    h3 {
+        margin: 0 0 0.5rem;
+        color: var(--text-primary);
+        font-size: 1.25rem;
+
+        @include themed() {
+            color: t('text-primary');
+        }
+    }
+
+    p {
+        margin: 0.25rem 0;
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+
+        @include themed() {
+            color: t('text-secondary');
+        }
+    }
+}
+
+.gameSettings {
+    background: var(--bg-primary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+
+    @include themed() {
+        background: t('bg-primary');
+        border-color: t('border-color');
+    }
+
+    h4 {
+        margin: 0 0 1rem;
+        color: var(--text-primary);
+        font-size: 1.125rem;
+
+        @include themed() {
+            color: t('text-primary');
+        }
+    }
+}
+
+.setting {
+    margin-bottom: 1rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        font-size: 0.875rem;
+        font-weight: 600;
+
+        @include themed() {
+            color: t('text-primary');
+        }
+    }
+}
+
+.select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    @include themed() {
+        border-color: t('border-color');
+        background: t('bg-secondary');
+        color: t('text-primary');
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.1);
+
+        @include themed() {
+            border-color: t('accent-primary');
+            box-shadow: 0 0 0 3px rgba(t('accent-primary-rgb'), 0.1);
+        }
+    }
+}
+
+.checkboxLabel {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    margin-bottom: 0 !important;
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-primary);
+
+    @include themed() {
+        accent-color: t('accent-primary');
+    }
+}
+
+.matchmaking {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.matchmakingSpinner {
+    margin-bottom: 1rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.buttonIcon {
+    margin-right: 0.5rem;
+}
+
+// Create Game Tab
+.createGameContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 100%;
+
+    h4 {
+        margin: 0 0 1.5rem;
+        color: var(--text-primary);
+        font-size: 1.25rem;
+
+        @include themed() {
+            color: t('text-primary');
+        }
+    }
+}
+
+.settingsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    background: var(--bg-primary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+
+    @include themed() {
+        background: t('bg-primary');
+        border-color: t('border-color');
+    }
+}
+
+// Join Game Tab
+.joinGameContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+.searchBar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    z-index: 1;
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 2.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+
+    @include themed() {
+        border-color: t('border-color');
+        background: t('bg-primary');
+        color: t('text-primary');
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.1);
+
+        @include themed() {
+            border-color: t('accent-primary');
+            box-shadow: 0 0 0 3px rgba(t('accent-primary-rgb'), 0.1);
+        }
+    }
+
+    &::placeholder {
+        color: var(--text-tertiary);
+
+        @include themed() {
+            color: t('text-tertiary');
+        }
+    }
+}
+
+.gamesList {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    color: var(--text-secondary);
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+}
+
+.noGames {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+}
+
+.gameCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    @include themed() {
+        background: t('bg-primary');
+        border-color: t('border-color');
+    }
+
+    &:hover {
+        border-color: var(--accent-primary);
+        box-shadow: 0 4px 12px rgba(var(--accent-primary-rgb), 0.1);
+
+        @include themed() {
+            border-color: t('accent-primary');
+            box-shadow: 0 4px 12px rgba(t('accent-primary-rgb'), 0.1);
+        }
+    }
+}
+
+.gameInfo {
+    flex: 1;
+}
+
+.gameHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    h4 {
+        margin: 0;
+        color: var(--text-primary);
+        font-size: 1.125rem;
+
+        @include themed() {
+            color: t('text-primary');
+        }
+    }
+}
+
+.gameStatus {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.statusWaiting {
+    background: rgba(var(--warning-rgb), 0.2);
+    color: var(--warning-color);
+
+    @include themed() {
+        background: rgba(t('warning-rgb'), 0.2);
+        color: t('warning-color');
+    }
+}
+
+.statusPlaying {
+    background: rgba(var(--success-rgb), 0.2);
+    color: var(--success-color);
+
+    @include themed() {
+        background: rgba(t('success-rgb'), 0.2);
+        color: t('success-color');
+    }
+}
+
+.players {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.playerName {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+
+    @include themed() {
+        color: t('text-primary');
+    }
+}
+
+.playerElo {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+}
+
+.vs {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    @include themed() {
+        color: t('text-tertiary');
+    }
+}
+
+.gameDetails {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+
+    span {
+        padding: 0.25rem 0.5rem;
+        background: var(--bg-tertiary);
+        border-radius: 4px;
+
+        @include themed() {
+            background: t('bg-tertiary');
+        }
+    }
+}
+
+.ranked {
+    background: rgba(var(--accent-primary-rgb), 0.2) !important;
+    color: var(--accent-primary) !important;
+
+    @include themed() {
+        background: rgba(t('accent-primary-rgb'), 0.2) !important;
+        color: t('accent-primary') !important;
+    }
+}
+
+.gameActions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .lobby {
+        max-width: none;
+        margin: 1rem;
+        max-height: 85vh;
+    }
+
+    .header {
+        padding: 1rem 1.5rem;
+    }
+
+    .title {
+        font-size: 1.25rem;
+    }
+
+    .content {
+        padding: 1.5rem;
+    }
+
+    .tabs {
+        overflow-x: auto;
+    }
+
+    .tab {
+        white-space: nowrap;
+        min-width: 120px;
+    }
+
+    .settingsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .gameCard {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .gameActions {
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    .players {
+        justify-content: space-between;
+    }
+}
+
+// Dark theme specific adjustments
+:global(.dark) {
+    .lobby {
+        background: var(--dark-bg-secondary);
+        border-color: var(--dark-border-color);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .select {
+        background: var(--dark-bg-secondary);
+        border-color: var(--dark-border-color);
+        color: var(--dark-text-primary);
+    }
+
+    .searchInput {
+        background: var(--dark-bg-primary);
+        border-color: var(--dark-border-color);
+        color: var(--dark-text-primary);
+    }
+}
+
+// Neon theme specific adjustments
+:global(.neon) {
+    .lobby {
+        background: var(--neon-bg-secondary);
+        border: 2px solid var(--neon-accent-primary);
+        box-shadow:
+            0 0 20px rgba(var(--neon-accent-primary-rgb), 0.3),
+            0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .gameCard:hover {
+        border-color: var(--neon-accent-primary);
+        box-shadow:
+            0 0 15px rgba(var(--neon-accent-primary-rgb), 0.3),
+            0 4px 12px rgba(var(--neon-accent-primary-rgb), 0.1);
+    }
+
+    .tab.active::after {
+        box-shadow: 0 0 10px rgba(var(--neon-accent-primary-rgb), 0.5);
+    }
+}

@@ -1,0 +1,200 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal {
+    background: var(--bg-primary, #ffffff);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid var(--border-color, #e0e0e0);
+
+    // Size variants
+    &.small {
+        max-width: 400px;
+        width: 100%;
+    }
+
+    &.medium {
+        max-width: 600px;
+        width: 100%;
+    }
+
+    &.large {
+        max-width: 800px;
+        width: 100%;
+    }
+
+    &.fullscreen {
+        max-width: 95vw;
+        max-height: 95vh;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 1.5rem 0;
+    border-bottom: 1px solid var(--border-color, #e0e0e0);
+    margin-bottom: 1rem;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary, #333333);
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-secondary, #666666);
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: var(--bg-secondary, #f5f5f5);
+        color: var(--text-primary, #333333);
+    }
+
+    &:focus {
+        outline: 2px solid var(--accent-primary, #007bff);
+        outline-offset: 2px;
+    }
+}
+
+.content {
+    padding: 0 1.5rem 1.5rem;
+}
+
+// Dark theme
+[data-theme="dark"] .modal {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --border-color: #404040;
+    --accent-primary: #00d4ff;
+
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+// Neon theme
+[data-theme="neon"] .modal {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1a1a1a;
+    --text-primary: #00ffff;
+    --text-secondary: #00cccc;
+    --border-color: #00ffff33;
+    --accent-primary: #ff00ff;
+
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(0, 255, 255, 0.3);
+    border: 1px solid #00ffff;
+}
+
+[data-theme="neon"] .overlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="neon"] .closeButton:hover {
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .overlay {
+        padding: 0.5rem;
+    }
+
+    .modal {
+        max-height: 95vh;
+        border-radius: 8px;
+
+        &.small,
+        &.medium,
+        &.large {
+            max-width: 100%;
+        }
+    }
+
+    .header {
+        padding: 1rem 1rem 0;
+    }
+
+    .title {
+        font-size: 1.25rem;
+    }
+
+    .content {
+        padding: 0 1rem 1rem;
+    }
+
+    .closeButton {
+        font-size: 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+// Animation improvements
+.modal {
+    transform-origin: center;
+}
+
+// Accessibility
+.modal:focus {
+    outline: none;
+}
+
+// Scrollbar styling for modal content
+.modal {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color, #e0e0e0) transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--border-color, #e0e0e0);
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--text-secondary, #666666);
+    }
+}

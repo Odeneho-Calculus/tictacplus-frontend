@@ -1,0 +1,251 @@
+// Define variables needed for this component
+$bg-darker: #0a0a0a;
+$bg-darkest: #050505;
+$bg-dark: #0f172a;
+$text-light: #f8fafc;
+$text-muted: #94a3b8;
+$text-dark: #0f172a;
+$border-color: #334155;
+$primary-color: #0ea5e9;
+$border-radius: 0.5rem;
+
+// Define breakpoints
+$breakpoint-xs: 475px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Define responsive mixins
+@mixin media-breakpoint-down($breakpoint) {
+    @if $breakpoint ==xs {
+        @media (max-width: #{$breakpoint-xs - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==sm {
+        @media (max-width: #{$breakpoint-sm - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==md {
+        @media (max-width: #{$breakpoint-md - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==lg {
+        @media (max-width: #{$breakpoint-lg - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==xl {
+        @media (max-width: #{$breakpoint-xl - 1px}) {
+            @content;
+        }
+    }
+}
+
+@import '../../../styles/mixins';
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($bg-darkest, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal {
+    width: 100%;
+    max-width: 500px;
+    background-color: $bg-dark;
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+
+    @include media-breakpoint-down(sm) {
+        width: 90%;
+        margin: 0 20px;
+    }
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: rgba($bg-darker, 0.7);
+    border-bottom: 1px solid $border-color;
+
+    h2 {
+        margin: 0;
+        font-size: 1.3rem;
+        color: $primary-color;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .icon {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: $text-light;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.modalContent {
+    padding: 1.5rem;
+}
+
+.playerInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid $border-color;
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid $primary-color;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .defaultAvatar {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary-color;
+        color: $text-dark;
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+}
+
+.playerDetails {
+    h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.2rem;
+        color: $text-light;
+    }
+}
+
+.playerStats {
+    display: flex;
+    gap: 1rem;
+
+    span {
+        font-size: 0.9rem;
+        color: $text-muted;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+
+    label {
+        font-size: 0.9rem;
+        color: $text-light;
+    }
+
+    textarea {
+        background-color: rgba($bg-darker, 0.7);
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        padding: 0.75rem;
+        color: $text-light;
+        font-size: 0.9rem;
+        resize: none;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+        }
+    }
+}
+
+.charCount {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.7rem;
+    color: $text-muted;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.cancelButton,
+.sendButton {
+    padding: 0.75rem 1.5rem;
+    border-radius: $border-radius;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelButton {
+    background: none;
+    border: 1px solid $border-color;
+    color: $text-light;
+
+    &:hover {
+        border-color: $primary-color;
+        color: $primary-color;
+    }
+}
+
+.sendButton {
+    background-color: $primary-color;
+    border: 1px solid $primary-color;
+    color: $text-dark;
+
+    &:hover {
+        background-color: lighten($primary-color, 10%);
+    }
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Clear Service Worker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .info {
+            color: blue;
+        }
+
+        #log {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Service Worker Debug Tool</h1>
+    <p>This page helps clear service workers and caches for development.</p>
+
+    <button onclick="unregisterServiceWorkers()">Unregister All Service Workers</button>
+    <button onclick="clearAllCaches()">Clear All Caches</button>
+    <button onclick="clearAndReload()">Clear Everything & Reload</button>
+    <button onclick="clearLog()">Clear Log</button>
+
+    <div id="log"></div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            logDiv.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        async function unregisterServiceWorkers() {
+            log('Starting service worker unregistration...');
+            try {
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    log(`Found ${registrations.length} service worker(s)`);
+
+                    for (const registration of registrations) {
+                        log(`Unregistering SW: ${registration.scope}`);
+                        await registration.unregister();
+                        log(`Successfully unregistered: ${registration.scope}`, 'success');
+                    }
+
+                    if (registrations.length === 0) {
+                        log('No service workers found to unregister', 'success');
+                    }
+                } else {
+                    log('Service Worker not supported in this browser', 'error');
+                }
+            } catch (error) {
+                log(`Error unregistering service workers: ${error.message}`, 'error');
+            }
+        }
+
+        async function clearAllCaches() {
+            log('Starting cache cleanup...');
+            try {
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    log(`Found ${cacheNames.length} cache(s)`);
+
+                    for (const cacheName of cacheNames) {
+                        log(`Deleting cache: ${cacheName}`);
+                        await caches.delete(cacheName);
+                        log(`Successfully deleted: ${cacheName}`, 'success');
+                    }
+
+                    if (cacheNames.length === 0) {
+                        log('No caches found to clear', 'success');
+                    }
+                } else {
+                    log('Cache API not supported in this browser', 'error');
+                }
+            } catch (error) {
+                log(`Error clearing caches: ${error.message}`, 'error');
+            }
+        }
+
+        async function clearAndReload() {
+            log('Clearing everything and reloading...');
+            await unregisterServiceWorkers();
+            await clearAllCaches();
+
+            // Clear localStorage and sessionStorage
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+                log('Cleared local and session storage', 'success');
+            } catch (error) {
+                log(`Error clearing storage: ${error.message}`, 'error');
+            }
+
+            log('Reloading page in 2 seconds...', 'info');
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 2000);
+        }
+
+        // Auto-run on page load
+        window.addEventListener('load', () => {
+            log('Service Worker Debug Tool loaded');
+            log('Click buttons above to manage service workers and caches');
+        });
+    </script>
+</body>
+
+</html>

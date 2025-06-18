@@ -1,0 +1,351 @@
+// Define variables needed for this component
+$bg-darker: #0a0a0a;
+$bg-darkest: #050505;
+$bg-dark: #0f172a;
+$text-light: #f8fafc;
+$text-muted: #94a3b8;
+$text-dark: #0f172a;
+$border-color: #334155;
+$primary-color: #0ea5e9;
+$border-radius: 0.5rem;
+
+// Define breakpoints
+$breakpoint-xs: 475px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Define responsive mixins
+@mixin media-breakpoint-down($breakpoint) {
+    @if $breakpoint ==xs {
+        @media (max-width: #{$breakpoint-xs - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==sm {
+        @media (max-width: #{$breakpoint-sm - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==md {
+        @media (max-width: #{$breakpoint-md - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==lg {
+        @media (max-width: #{$breakpoint-lg - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==xl {
+        @media (max-width: #{$breakpoint-xl - 1px}) {
+            @content;
+        }
+    }
+}
+
+@mixin media-breakpoint-up($breakpoint) {
+    @if $breakpoint ==xs {
+        @media (min-width: $breakpoint-xs) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==sm {
+        @media (min-width: $breakpoint-sm) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==md {
+        @media (min-width: $breakpoint-md) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==lg {
+        @media (min-width: $breakpoint-lg) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==xl {
+        @media (min-width: $breakpoint-xl) {
+            @content;
+        }
+    }
+}
+
+@import '../../../styles/mixins';
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($bg-darkest, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal {
+    width: 100%;
+    max-width: 600px;
+    background-color: $bg-dark;
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    @include media-breakpoint-down(sm) {
+        width: 90%;
+        margin: 0 20px;
+    }
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: rgba($bg-darker, 0.7);
+    border-bottom: 1px solid $border-color;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    h2 {
+        margin: 0;
+        font-size: 1.3rem;
+        color: $primary-color;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .icon {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: $text-light;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.modalContent {
+    padding: 1.5rem;
+}
+
+.playerInfo {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    @include media-breakpoint-down(sm) {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid $primary-color;
+    box-shadow: 0 0 15px rgba($primary-color, 0.3);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .defaultAvatar {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary-color;
+        color: $text-dark;
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+}
+
+.playerDetails {
+    flex: 1;
+
+    h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.5rem;
+        color: $text-light;
+    }
+}
+
+.playerRank {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    @include media-breakpoint-down(sm) {
+        justify-content: center;
+    }
+}
+
+.rankBadge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba($primary-color, 0.8), rgba($primary-color, 0.4));
+    color: $text-light;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba($primary-color, 0.6);
+}
+
+.joinDate {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: $text-muted;
+    font-size: 0.9rem;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.statCard {
+    background-color: rgba($bg-darker, 0.7);
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: $primary-color;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.statIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba($primary-color, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $primary-color;
+    font-size: 1.2rem;
+}
+
+.statInfo {
+    display: flex;
+    flex-direction: column;
+
+    .statValue {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: $text-light;
+    }
+
+    .statLabel {
+        font-size: 0.8rem;
+        color: $text-muted;
+    }
+}
+
+.detailedStats {
+    background-color: rgba($bg-darker, 0.5);
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    h4 {
+        margin-top: 0;
+        margin-bottom: 1.2rem;
+        color: $primary-color;
+        font-size: 1.1rem;
+        border-bottom: 1px solid $border-color;
+        padding-bottom: 0.5rem;
+    }
+}
+
+.statRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba($border-color, 0.3);
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .statName {
+        color: $text-muted;
+    }
+
+    .statValue {
+        font-weight: 600;
+        color: $text-light;
+    }
+}
+
+.modalActions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+
+    .closeButton {
+        background-color: $primary-color;
+        border: none;
+        border-radius: $border-radius;
+        color: $text-dark;
+        font-size: 1rem;
+        padding: 0.75rem 2rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: lighten($primary-color, 10%);
+            transform: translateY(-2px);
+        }
+    }
+}

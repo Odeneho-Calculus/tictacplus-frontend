@@ -1,0 +1,155 @@
+
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mix;
+
+.winningLine {
+  position: absolute;
+  background: vars.$success;
+  border-radius: 2px;
+  z-index: 20;
+  pointer-events: none;
+
+  // Ensure the line appears above cells
+  box-shadow: 0 0 10px currentColor;
+
+  // Smooth transitions
+  transition: all vars.$transition-base;
+}
+
+.sparkles {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  top: -3px;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+// Theme variations
+[data-theme="light"] {
+  .winningLine {
+    box-shadow:
+      0 0 10px currentColor,
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+[data-theme="dark"] {
+  .winningLine {
+    box-shadow:
+      0 0 15px currentColor,
+      0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+[data-theme="neon"] {
+  .winningLine {
+    box-shadow:
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor,
+      0 0 20px currentColor;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(90deg, transparent, currentColor, transparent);
+      border-radius: 4px;
+      opacity: 0.3;
+      animation: neonPulse 2s ease-in-out infinite;
+    }
+  }
+
+  .sparkle {
+    box-shadow:
+      0 0 4px currentColor,
+      0 0 8px currentColor;
+  }
+}
+
+// Animations
+@keyframes neonPulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+// Responsive design
+@include mix.mobile {
+  .winningLine {
+    height: 3px !important;
+    width: 3px !important;
+  }
+
+  .sparkle {
+    width: 4px;
+    height: 4px;
+    top: -2px;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .winningLine {
+    background: #000 !important;
+    box-shadow: 0 0 0 2px #fff !important;
+  }
+
+  [data-theme="dark"] .winningLine {
+    background: #fff !important;
+    box-shadow: 0 0 0 2px #000 !important;
+  }
+
+  .sparkle {
+    background: currentColor !important;
+    box-shadow: none !important;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .winningLine {
+    transition: none;
+
+    &::before {
+      animation: none;
+    }
+  }
+
+  .sparkle {
+    animation: none !important;
+  }
+}
+
+// Print styles
+@media print {
+  .winningLine {
+    background: #000 !important;
+    box-shadow: none !important;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .sparkles {
+    display: none;
+  }
+}

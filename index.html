@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>TicTac+ | Advanced AAA-Style Tic Tac Toe Game</title>
+    <meta name="title" content="TicTac+ | Advanced AAA-Style Tic Tac Toe Game">
+    <meta name="description"
+        content="Experience the ultimate Tic Tac Toe game with stunning animations, real-time multiplayer, and advanced AI opponents.">
+    <meta name="keywords" content="tic tac toe, multiplayer game, online game, AI game, react game">
+    <meta name="author" content="TicTac+ Team">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tictacplus.com/">
+    <meta property="og:title" content="TicTac+ | Advanced AAA-Style Tic Tac Toe Game">
+    <meta property="og:description"
+        content="Experience the ultimate Tic Tac Toe game with stunning animations, real-time multiplayer, and advanced AI opponents.">
+    <meta property="og:image" content="/assets/images/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tictacplus.com/">
+    <meta property="twitter:title" content="TicTac+ | Advanced AAA-Style Tic Tac Toe Game">
+    <meta property="twitter:description"
+        content="Experience the ultimate Tic Tac Toe game with stunning animations, real-time multiplayer, and advanced AI opponents.">
+    <meta property="twitter:image" content="/assets/images/twitter-image.png">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0ea5e9">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="TicTac+">
+    <!-- Apple touch icon removed to prevent 404 error -->
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts - Enhanced with powerful display fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800;900&family=Bungee&family=Righteous&family=Fredoka+One&family=Press+Start+2P&family=Bangers&family=Bubblegum+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Additional System Fonts and Fallbacks -->
+    <style>
+        @font-face {
+            font-family: 'Jokerman Fallback';
+            src: local('Jokerman'), local('Jokerman Let'), local('Comic Sans MS'), local('cursive');
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Impact Fallback';
+            src: local('Impact'), local('Arial Black'), local('sans-serif');
+            font-display: swap;
+        }
+    </style>
+
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <!-- Performance optimizations -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+
+    <!-- Critical CSS will be inlined here by build process -->
+    <style>
+        /* Critical CSS for initial render with advanced 3D styling */
+        :root {
+            --primary-gradient: linear-gradient(145deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --secondary-gradient: linear-gradient(145deg, #4facfe 0%, #00f2fe 100%);
+            --tertiary-gradient: linear-gradient(145deg, #fa709a 0%, #fee140 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-3d: 0 20px 40px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.15);
+            --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.3);
+            --neon-blue: #00d4ff;
+            --neon-pink: #ff006e;
+            --neon-green: #8338ec;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Orbitron', 'Exo 2', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: var(--primary-gradient);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 25% 25%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 0, 110, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(131, 56, 236, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        #root {
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Advanced 3D Loading spinner */
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: var(--primary-gradient);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: spinnerRotate 2s linear infinite;
+        }
+
+        .spinner::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
+            border-top: 4px solid var(--neon-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .spinner::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            top: 10px;
+            left: 10px;
+            border: 3px solid transparent;
+            border-bottom: 3px solid var(--neon-pink);
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite reverse;
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spinnerRotate {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+
+            25% {
+                transform: rotateX(90deg) rotateY(0deg);
+            }
+
+            50% {
+                transform: rotateX(90deg) rotateY(90deg);
+            }
+
+            75% {
+                transform: rotateX(0deg) rotateY(90deg);
+            }
+
+            100% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+        }
+
+        .loading-text {
+            color: white;
+            font-family: 'Orbitron', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Prevent flash of unstyled content */
+        .loading-fallback {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: 'Orbitron', monospace;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <noscript>
+        <div style="text-align: center; padding: 50px; color: white;">
+            <h1>JavaScript Required</h1>
+            <p>You need to enable JavaScript to run this app.</p>
+        </div>
+    </noscript>
+
+    <div id="root">
+        <!-- Advanced 3D loading spinner shown while app loads -->
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <div class="loading-text">TicTac+ Loading...</div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

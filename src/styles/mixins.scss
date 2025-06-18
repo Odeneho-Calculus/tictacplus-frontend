@@ -1,0 +1,536 @@
+// Flexbox Mixins
+@use 'variables' as vars;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// Grid Mixins
+@mixin grid-center {
+  display: grid;
+  place-items: center;
+}
+
+@mixin grid-auto-fit($min-size: 250px, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-size, 1fr));
+  gap: $gap;
+}
+
+@mixin grid-auto-fill($min-size: 250px, $gap: 1rem) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-size, 1fr));
+  gap: $gap;
+}
+
+// Position Mixins
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin absolute-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin fixed-full {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+// Size Mixins
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+}
+
+// Typography Mixins
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Button Mixins
+@mixin button-reset {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+@mixin button-base {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: vars.$spacing-2;
+  padding: vars.$spacing-3 vars.$spacing-6;
+  border-radius: vars.$rounded-lg;
+  font-weight: vars.$font-medium;
+  transition: all vars.$transition-base;
+  cursor: pointer;
+  user-select: none;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+@mixin button-primary {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: vars.$spacing-2;
+  padding: vars.$spacing-3 vars.$spacing-6;
+  border-radius: vars.$rounded-lg;
+  font-weight: vars.$font-medium;
+  transition: all vars.$transition-base;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(135deg, vars.$primary-500, vars.$primary-600);
+  color: white;
+  box-shadow: vars.$shadow-md;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, vars.$primary-600, vars.$primary-700);
+    box-shadow: vars.$shadow-lg;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: vars.$shadow;
+  }
+}
+
+@mixin button-secondary {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: vars.$spacing-2;
+  padding: vars.$spacing-3 vars.$spacing-6;
+  border-radius: vars.$rounded-lg;
+  font-weight: vars.$font-medium;
+  transition: all vars.$transition-base;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+@mixin button-ghost {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: vars.$spacing-2;
+  padding: vars.$spacing-3 vars.$spacing-6;
+  border-radius: vars.$rounded-lg;
+  font-weight: vars.$font-medium;
+  transition: all vars.$transition-base;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  color: inherit;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Card Mixins
+@mixin card-base {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: vars.$rounded-xl;
+  padding: vars.$spacing-6;
+  box-shadow: vars.$shadow-lg;
+}
+
+@mixin card-hover {
+  transition: all vars.$transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: vars.$shadow-xl;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// Glass Morphism
+@mixin glass($opacity: 0.1, $blur: 10px) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, $opacity * 2);
+}
+
+@mixin glass-dark($opacity: 0.2, $blur: 10px) {
+  background: rgba(0, 0, 0, $opacity);
+  backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// Glow Effects
+@mixin glow($color: vars.$primary-500, $intensity: 0.3) {
+  box-shadow: 0 0 20px rgba($color, $intensity);
+}
+
+@mixin glow-hover($color: vars.$primary-500, $intensity: 0.5) {
+  transition: box-shadow vars.$transition-base;
+
+  &:hover {
+    box-shadow: 0 0 30px rgba($color, $intensity);
+  }
+}
+
+@mixin neon-glow($color: vars.$neon-primary) {
+  box-shadow:
+    0 0 5px rgba($color, 0.5),
+    0 0 10px rgba($color, 0.3),
+    0 0 15px rgba($color, 0.2),
+    0 0 20px rgba($color, 0.1);
+}
+
+// Animation Mixins
+@mixin fade-in($duration: 300ms) {
+  animation: fadeIn $duration ease-out;
+}
+
+@mixin fade-out($duration: 300ms) {
+  animation: fadeOut $duration ease-in;
+}
+
+@mixin slide-in-up($duration: 300ms) {
+  animation: slideInUp $duration ease-out;
+}
+
+@mixin slide-in-down($duration: 300ms) {
+  animation: slideInDown $duration ease-out;
+}
+
+@mixin bounce-in($duration: 500ms) {
+  animation: bounceIn $duration ease-out;
+}
+
+@mixin pulse($duration: 2s) {
+  animation: pulse $duration infinite;
+}
+
+@mixin spin($duration: 1s) {
+  animation: spin $duration linear infinite;
+}
+
+// Responsive Mixins
+@mixin mobile {
+  @media (max-width: #{vars.$breakpoint-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: vars.$breakpoint-md) and (max-width: #{vars.$breakpoint-lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: vars.$breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin mobile-up {
+  @media (min-width: vars.$breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: vars.$breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media (min-width: vars.$breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin xl-up {
+  @media (min-width: vars.$breakpoint-xl) {
+    @content;
+  }
+}
+
+// Utility Mixins
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-top: percentage($height / $width);
+  }
+
+  >* {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+// Focus Mixins
+@mixin focus-ring($color: vars.$primary-500) {
+  &:focus {
+    outline: 2px solid $color;
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: 2px;
+  }
+}
+
+@mixin focus-within-ring($color: vars.$primary-500) {
+  &:focus-within {
+    outline: 2px solid $color;
+    outline-offset: 2px;
+  }
+}
+
+// Game Specific Mixins
+@mixin game-board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: vars.$board-size;
+  height: vars.$board-size;
+  background: vars.$board-bg;
+  border-radius: vars.$rounded-xl;
+  padding: vars.$spacing-4;
+  box-shadow: vars.$shadow-xl;
+  position: relative;
+
+  @media (max-width: #{vars.$breakpoint-lg - 1px}) {
+    width: vars.$board-size-tablet;
+    height: vars.$board-size-tablet;
+  }
+
+  @media (max-width: #{vars.$breakpoint-md - 1px}) {
+    width: vars.$board-size-mobile;
+    height: vars.$board-size-mobile;
+    padding: vars.$spacing-3;
+  }
+
+  @media (max-width: #{vars.$breakpoint-sm - 1px}) {
+    width: min(85vw, vars.$board-size-small);
+    height: min(85vw, vars.$board-size-small);
+    padding: vars.$spacing-2;
+  }
+
+  @media (max-width: #{vars.$breakpoint-xs}) {
+    width: min(90vw, 260px);
+    height: min(90vw, 260px);
+    padding: vars.$spacing-2;
+  }
+}
+
+@mixin game-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  background: vars.$cell-bg;
+  border-radius: vars.$rounded-lg;
+  cursor: pointer;
+  transition: all vars.$transition-base;
+  aspect-ratio: 1;
+
+  &:hover {
+    background: vars.$cell-hover;
+    transform: scale(1.05);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  @media (max-width: #{vars.$breakpoint-md - 1px}) {
+    min-height: 70px;
+  }
+
+  @media (max-width: #{vars.$breakpoint-sm - 1px}) {
+    min-height: 60px;
+  }
+}
+
+@mixin game-piece {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  font-size: vars.$text-4xl;
+  font-weight: vars.$font-bold;
+
+  @media (max-width: #{vars.$breakpoint-md - 1px}) {
+    width: 50px;
+    height: 50px;
+    font-size: vars.$text-3xl;
+  }
+}
+
+// Theme Mixins
+@mixin themed() {
+  @content;
+}
+
+// Theme function helper
+@function t($property) {
+  @return var(--#{$property});
+}

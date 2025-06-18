@@ -1,0 +1,823 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.gameInvitation {
+    position: relative;
+    background: var(--bg-secondary);
+    border: 2px solid var(--accent-primary);
+    border-radius: 16px;
+    width: 320px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+
+    @include themed() {
+        background: t('bg-secondary');
+        border-color: t('accent-primary');
+        box-shadow: 0 12px 32px rgba(t('shadow-color'), 0.3);
+    }
+
+    @media (max-width: 768px) {
+        width: 280px;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+
+    @include themed() {
+        background: t('bg-tertiary');
+        border-color: t('border-color');
+    }
+
+    @media (max-width: 768px) {
+        padding: 0.75rem 1rem;
+    }
+}
+
+.inviterInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--accent-primary);
+    flex-shrink: 0;
+
+    @include themed() {
+        border-color: t('accent-primary');
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+.defaultAvatar {
+    width: 100%;
+    height: 100%;
+    background: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+
+    @include themed() {
+        background: t('accent-primary');
+    }
+
+    @media (max-width: 768px) {
+        font-size: 0.875rem;
+    }
+}
+
+.inviterDetails {
+    flex: 1;
+    min-width: 0;
+}
+
+.inviterName {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @include themed() {
+        color: t('text-primary');
+    }
+
+    @media (max-width: 768px) {
+        font-size: 0.875rem;
+    }
+}
+
+.inviterStats {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+
+    @media (max-width: 768px) {
+        font-size: 0.625rem;
+        gap: 0.5rem;
+    }
+}
+
+.elo,
+.level {
+    font-weight: 600;
+}
+
+.gameMode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.modeIcon {
+    color: var(--accent-primary);
+    font-size: 1.25rem;
+
+    @include themed() {
+        color: t('accent-primary');
+    }
+
+    @media (max-width: 768px) {
+        font-size: 1rem;
+    }
+}
+
+.modeText {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+}
+
+.content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+}
+
+.invitationText {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+    justify-content: center;
+
+    @include themed() {
+        color: t('text-primary');
+    }
+
+    @media (max-width: 768px) {
+        font-size: 0.75rem;
+    }
+}
+
+.inviteIcon {
+    color: var(--accent-primary);
+    font-size: 1rem;
+
+    @include themed() {
+        color: t('accent-primary');
+    }
+}
+
+.gameSettings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+
+    @include themed() {
+        background: t('bg-primary');
+        border-color: t('border-color');
+    }
+
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+        gap: 0.375rem;
+    }
+}
+
+.setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+
+    @media (max-width: 768px) {
+        font-size: 0.625rem;
+    }
+}
+
+.settingLabel {
+    color: var(--text-secondary);
+    font-weight: 500;
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+}
+
+.settingValue {
+    color: var(--text-primary);
+    font-weight: 600;
+
+    @include themed() {
+        color: t('text-primary');
+    }
+}
+
+.timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(var(--warning-rgb), 0.1);
+    border: 1px solid var(--warning-color);
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+
+    @include themed() {
+        background: rgba(t('warning-rgb'), 0.1);
+        border-color: t('warning-color');
+    }
+
+    @media (max-width: 768px) {
+        font-size: 0.625rem;
+        padding: 0.375rem;
+    }
+}
+
+.timerIcon {
+    color: var(--warning-color);
+
+    @include themed() {
+        color: t('warning-color');
+    }
+}
+
+.timerText {
+    color: var(--text-secondary);
+    font-weight: 500;
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+}
+
+.timerValue {
+    color: var(--warning-color);
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+
+    @include themed() {
+        color: t('warning-color');
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+
+    @include themed() {
+        background: t('bg-tertiary');
+        border-color: t('border-color');
+    }
+
+    @media (max-width: 768px) {
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+    }
+}
+
+.acceptButton,
+.declineButton {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+
+    @media (max-width: 768px) {
+        font-size: 0.75rem;
+    }
+}
+
+.progressBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--bg-primary);
+
+    @include themed() {
+        background: t('bg-primary');
+    }
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success-color), var(--warning-color), var(--error-color));
+    transition: width 0.3s ease;
+
+    @include themed() {
+        background: linear-gradient(90deg, t('success-color'), t('warning-color'), t('error-color'));
+    }
+}
+
+.urgentPulse {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--error-color);
+    border-radius: 16px;
+    pointer-events: none;
+
+    @include themed() {
+        border-color: t('error-color');
+    }
+}
+
+// Invitation List
+.invitationList {
+    position: fixed;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+
+    &.topRight {
+        top: 1rem;
+        right: 1rem;
+    }
+
+    &.topLeft {
+        top: 1rem;
+        left: 1rem;
+    }
+
+    &.bottomRight {
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    &.bottomLeft {
+        bottom: 1rem;
+        left: 1rem;
+    }
+
+    @media (max-width: 768px) {
+
+        &.topRight,
+        &.topLeft,
+        &.bottomRight,
+        &.bottomLeft {
+            top: auto;
+            bottom: 1rem;
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 320px;
+        }
+    }
+}
+
+.listItem {
+    margin-bottom: 0.5rem;
+}
+
+// Send Invitation Modal
+.sendInvitationModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.sendInvitationContent {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+    @include themed() {
+        background: t('bg-secondary');
+        border-color: t('border-color');
+        box-shadow: 0 20px 60px rgba(t('shadow-color'), 0.4);
+    }
+
+    @media (max-width: 768px) {
+        max-width: 95%;
+        border-radius: 16px;
+    }
+}
+
+.sendHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    background: var(--bg-tertiary);
+    border-bottom: 2px solid var(--border-color);
+
+    @include themed() {
+        background: t('bg-tertiary');
+        border-color: t('border-color');
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+
+        @include themed() {
+            color: t('text-primary');
+        }
+
+        @media (max-width: 768px) {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 1rem 1.5rem;
+    }
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    @include themed() {
+        color: t('text-secondary');
+    }
+
+    &:hover {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+
+        @include themed() {
+            background: t('bg-primary');
+            color: t('text-primary');
+        }
+    }
+}
+
+.sendContent {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+}
+
+.friendInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+
+    @include themed() {
+        background: t('bg-primary');
+        border-color: t('border-color');
+    }
+}
+
+.friendAvatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--accent-primary);
+    flex-shrink: 0;
+
+    @include themed() {
+        border-color: t('accent-primary');
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.friendDetails {
+    flex: 1;
+
+    h4 {
+        margin: 0 0 0.25rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--text-primary);
+
+        @include themed() {
+            color: t('text-primary');
+        }
+
+        @media (max-width: 768px) {
+            font-size: 1rem;
+        }
+    }
+
+    p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+
+        @include themed() {
+            color: t('text-secondary');
+        }
+
+        @media (max-width: 768px) {
+            font-size: 0.75rem;
+        }
+    }
+}
+
+.messageInput {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-primary);
+
+        @include themed() {
+            color: t('text-primary');
+        }
+
+        @media (max-width: 768px) {
+            font-size: 0.75rem;
+        }
+    }
+
+    textarea {
+        padding: 0.75rem;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-size: 0.875rem;
+        resize: vertical;
+        min-height: 80px;
+        max-height: 120px;
+        transition: all 0.2s ease;
+
+        @include themed() {
+            border-color: t('border-color');
+            background: t('bg-primary');
+            color: t('text-primary');
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.1);
+
+            @include themed() {
+                border-color: t('accent-primary');
+                box-shadow: 0 0 0 3px rgba(t('accent-primary-rgb'), 0.1);
+            }
+        }
+
+        &::placeholder {
+            color: var(--text-tertiary);
+
+            @include themed() {
+                color: t('text-tertiary');
+            }
+        }
+
+        @media (max-width: 768px) {
+            font-size: 0.75rem;
+            min-height: 60px;
+            max-height: 100px;
+        }
+    }
+}
+
+.gameSettingsPreview {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+
+    @include themed() {
+        background: t('bg-primary');
+        border-color: t('border-color');
+    }
+
+    h5 {
+        margin: 0 0 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+
+        @include themed() {
+            color: t('text-primary');
+        }
+
+        @media (max-width: 768px) {
+            font-size: 0.875rem;
+        }
+    }
+}
+
+.settingsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sendActions {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+
+    @include themed() {
+        background: t('bg-tertiary');
+        border-color: t('border-color');
+    }
+
+    @media (max-width: 768px) {
+        padding: 1rem 1.5rem;
+        flex-direction: column;
+    }
+}
+
+// Dark theme specific adjustments
+:global(.dark) {
+    .gameInvitation {
+        background: var(--dark-bg-secondary);
+        border-color: var(--dark-accent-primary);
+    }
+
+    .sendInvitationContent {
+        background: var(--dark-bg-secondary);
+        border-color: var(--dark-border-color);
+    }
+}
+
+// Neon theme specific adjustments
+:global(.neon) {
+    .gameInvitation {
+        background: var(--neon-bg-secondary);
+        border: 2px solid var(--neon-accent-primary);
+        box-shadow:
+            0 0 20px rgba(var(--neon-accent-primary-rgb), 0.3),
+            0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .avatar,
+    .friendAvatar {
+        border-color: var(--neon-accent-primary);
+        box-shadow: 0 0 10px rgba(var(--neon-accent-primary-rgb), 0.3);
+    }
+
+    .defaultAvatar {
+        background: var(--neon-accent-primary);
+        box-shadow: 0 0 15px rgba(var(--neon-accent-primary-rgb), 0.4);
+    }
+
+    .progressFill {
+        background: linear-gradient(90deg, var(--neon-success-color), var(--neon-warning-color), var(--neon-error-color));
+        box-shadow: 0 0 8px rgba(var(--neon-accent-primary-rgb), 0.5);
+    }
+
+    .urgentPulse {
+        border-color: var(--neon-error-color);
+        box-shadow: 0 0 15px rgba(var(--neon-error-rgb), 0.4);
+    }
+
+    .sendInvitationContent {
+        background: var(--neon-bg-secondary);
+        border: 2px solid var(--neon-accent-primary);
+        box-shadow:
+            0 0 30px rgba(var(--neon-accent-primary-rgb), 0.3),
+            0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+}
+
+// Scrollbar styling for invitation list
+.invitationList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.invitationList::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+
+    @include themed() {
+        background: t('bg-primary');
+    }
+}
+
+.invitationList::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+
+    @include themed() {
+        background: t('border-color');
+    }
+
+    &:hover {
+        background: var(--accent-primary);
+
+        @include themed() {
+            background: t('accent-primary');
+        }
+    }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+    .gameInvitation {
+        animation: none;
+    }
+
+    .urgentPulse {
+        animation: none;
+    }
+
+    .timerValue {
+        animation: none;
+    }
+}

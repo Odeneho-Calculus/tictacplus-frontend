@@ -1,0 +1,625 @@
+@use '../../styles/variables' as vars;
+@use '../../styles/mixins' as mix;
+
+// Loading state
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    gap: 1.5rem;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.profile {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+
+    // Modern subtle background
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 80% 70%, rgba(255, 0, 110, 0.05) 0%, transparent 40%);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    @include mix.mobile {
+        padding: 1rem 0.5rem;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    transform-style: preserve-3d;
+}
+
+// Modern header with avatar and name
+.profileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+    @include mix.tablet {
+        padding: 1.5rem;
+    }
+
+    @include mix.mobile {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+        padding: 1.25rem;
+    }
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    @include mix.mobile {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+}
+
+.headerRight {
+    @include mix.mobile {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.avatarWrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: visible;
+
+    @include mix.mobile {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    position: relative;
+}
+
+.defaultAvatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,
+            rgba(0, 212, 255, 0.7),
+            rgba(131, 56, 236, 0.7));
+    color: white;
+    font-size: 2.5rem;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    position: relative;
+
+    @include mix.mobile {
+        font-size: 2rem;
+    }
+}
+
+.avatarGlow {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(0, 212, 255, 0.5) 0%,
+            transparent 70%);
+    filter: blur(10px);
+    opacity: 0.5;
+    z-index: 1;
+}
+
+.nameAndRank {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    @include mix.mobile {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.playerName {
+    font-family: vars.$font-heading;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    letter-spacing: 0.5px;
+
+    @include mix.tablet {
+        font-size: 1.75rem;
+    }
+
+    @include mix.mobile {
+        font-size: 1.5rem;
+    }
+}
+
+// Main content layout
+.mainContent {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+
+    // On tablet and mobile, stack the sections vertically
+    @include mix.tablet {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    @include mix.mobile {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+// Profile section
+.profileSection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @include mix.mobile {
+        gap: 1rem;
+    }
+}
+
+.profileCard {
+    padding: 2rem;
+    height: 100%;
+
+    @include mix.tablet {
+        padding: 1.5rem;
+    }
+
+    @include mix.mobile {
+        padding: 1.25rem;
+    }
+}
+
+// Stats section
+.statsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    @include mix.mobile {
+        gap: 1rem;
+    }
+}
+
+.statsOverview {
+    padding: 2rem;
+
+    @include mix.tablet {
+        padding: 1.5rem;
+    }
+
+    @include mix.mobile {
+        padding: 1.25rem;
+    }
+}
+
+// Section titles
+.sectionTitle {
+    font-family: vars.$font-heading;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    @include mix.mobile {
+        font-size: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    // Subtle glow line
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(90deg,
+                var(--neon-blue, #00d4ff),
+                transparent);
+
+        @include mix.mobile {
+            width: 60px;
+        }
+    }
+}
+
+.sectionIcon {
+    color: var(--neon-blue, #00d4ff);
+}
+
+// Stats highlights
+.statsHighlights {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1rem;
+
+    @include mix.tablet {
+        margin-bottom: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mix.mobile {
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+    }
+}
+
+.statHighlight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 1;
+
+    @include mix.tablet {
+        padding: 0.875rem;
+    }
+
+    @include mix.mobile {
+        width: 100%;
+        padding: 0.75rem;
+    }
+}
+
+.statIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,
+            rgba(0, 212, 255, 0.2),
+            rgba(131, 56, 236, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+
+    @include mix.mobile {
+        width: 36px;
+        height: 36px;
+        font-size: 1.125rem;
+    }
+}
+
+.statInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+
+    @include mix.mobile {
+        font-size: 1.25rem;
+    }
+}
+
+.statLabel {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+
+    @include mix.mobile {
+        font-size: 0.75rem;
+    }
+}
+
+// Stats grid
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+
+    @include mix.tablet {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.875rem;
+    }
+
+    @include mix.mobile {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    // Override Card styles to ensure text visibility
+    :global(.card) {
+        background: rgba(0, 0, 0, 0.5) !important;
+        box-shadow: none !important;
+
+        :global(.cardContent) {
+            z-index: 30 !important;
+            position: relative;
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0.5rem;
+
+            @include mix.mobile {
+                font-size: 1rem !important;
+                padding: 0.375rem;
+            }
+        }
+    }
+}
+
+// Badges
+.badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+
+    @include mix.mobile {
+        gap: 0.5rem;
+        justify-content: center;
+    }
+}
+
+.rank,
+.score,
+.level {
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    font-family: vars.$font-primary;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    @include mix.mobile {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.7rem;
+    }
+}
+
+.rank {
+    background: linear-gradient(135deg,
+            var(--neon-blue, #00d4ff),
+            var(--neon-pink, #ff006e));
+    color: white;
+}
+
+.score {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--neon-green, #8338ec);
+    border: 1px solid var(--neon-green, #8338ec);
+}
+
+.level {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--neon-orange, #ff9e00);
+    border: 1px solid var(--neon-orange, #ff9e00);
+}
+
+// Profile details
+.profileDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @include mix.mobile {
+        gap: 1.25rem;
+    }
+}
+
+.infoItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    @include mix.mobile {
+        gap: 0.375rem;
+    }
+}
+
+.infoLabel {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+
+    @include mix.mobile {
+        font-size: 0.8rem;
+    }
+}
+
+.infoValue {
+    font-size: 1rem;
+    color: white;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    @include mix.mobile {
+        font-size: 0.9rem;
+    }
+}
+
+.inlineIcon {
+    color: var(--neon-blue, #00d4ff);
+}
+
+.bio {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    @include mix.mobile {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+        line-height: 1.5;
+    }
+}
+
+// Edit form
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @include mix.mobile {
+        gap: 1.25rem;
+    }
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    @include mix.mobile {
+        gap: 0.375rem;
+    }
+}
+
+.formGroup label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+
+    @include mix.mobile {
+        font-size: 0.8rem;
+    }
+}
+
+.helpText {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.25rem;
+}
+
+.input,
+.textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 1rem;
+    font-family: vars.$font-primary;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    @include mix.mobile {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.9rem;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--neon-blue, #00d4ff);
+        box-shadow:
+            inset 0 2px 5px rgba(0, 0, 0, 0.1),
+            0 0 10px rgba(0, 212, 255, 0.2);
+    }
+
+    &::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    &.disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        background: rgba(0, 0, 0, 0.3);
+    }
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+
+    @include mix.mobile {
+        min-height: 80px;
+    }
+}
+
+// Action buttons
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    @include mix.mobile {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}

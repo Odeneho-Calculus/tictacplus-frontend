@@ -1,0 +1,420 @@
+// Define variables needed for this component
+$bg-dark: #0f172a;
+$bg-darker: #0a0a0a;
+$text-light: #f8fafc;
+$text-muted: #94a3b8;
+$text-dark: #0f172a;
+$border-color: #334155;
+$primary-color: #0ea5e9;
+$border-radius: 0.5rem;
+
+// Define breakpoints
+$breakpoint-xs: 475px;
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Define responsive mixins
+@mixin media-breakpoint-down($breakpoint) {
+    @if $breakpoint ==xs {
+        @media (max-width: #{$breakpoint-xs - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==sm {
+        @media (max-width: #{$breakpoint-sm - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==md {
+        @media (max-width: #{$breakpoint-md - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==lg {
+        @media (max-width: #{$breakpoint-lg - 1px}) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==xl {
+        @media (max-width: #{$breakpoint-xl - 1px}) {
+            @content;
+        }
+    }
+}
+
+@import '../../styles/mixins';
+
+.matchmakingPage {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background-color: $bg-dark;
+    color: $text-light;
+    padding: 2rem;
+
+    @include media-breakpoint-down(md) {
+        padding: 1rem;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $border-color;
+
+    @include media-breakpoint-down(sm) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    color: $text-light;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: $primary-color;
+
+    .titleIcon {
+        font-size: 1.8rem;
+    }
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+    }
+}
+
+.matchmakingStatus {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: rgba($bg-darker, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+.statusIcon {
+    font-size: 1.2rem;
+    color: $primary-color;
+}
+
+.statusText {
+    display: flex;
+    flex-direction: column;
+
+    span {
+        font-size: 0.9rem;
+    }
+
+    .timeElapsed {
+        font-size: 0.8rem;
+        color: $text-muted;
+    }
+}
+
+.findMatchButton {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+    }
+}
+
+.cancelButton {
+    white-space: nowrap;
+}
+
+.content {
+    display: flex;
+    gap: 2rem;
+    flex: 1;
+
+    @include media-breakpoint-down(lg) {
+        flex-direction: column;
+    }
+}
+
+.playerListSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba($bg-darker, 0.5);
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    overflow: hidden;
+}
+
+.playerListHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: rgba($bg-darker, 0.7);
+    border-bottom: 1px solid $border-color;
+
+    h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: $primary-color;
+    }
+
+    @include media-breakpoint-down(md) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+.playerListControls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    @include media-breakpoint-down(md) {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+}
+
+.filterButton,
+.refreshButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba($bg-darker, 0.7);
+    color: $text-light;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: rgba($primary-color, 0.2);
+        border-color: $primary-color;
+    }
+
+    @include media-breakpoint-down(sm) {
+        span {
+            display: none;
+        }
+    }
+}
+
+.sortButtons {
+    display: flex;
+    gap: 0.5rem;
+
+    @include media-breakpoint-down(sm) {
+        flex-wrap: wrap;
+    }
+}
+
+.sortButton {
+    background-color: rgba($bg-darker, 0.7);
+    color: $text-light;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+
+    &:hover {
+        background-color: rgba($primary-color, 0.2);
+        border-color: $primary-color;
+    }
+
+    &.active {
+        background-color: rgba($primary-color, 0.3);
+        border-color: $primary-color;
+        color: $primary-color;
+    }
+
+    @include media-breakpoint-down(sm) {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+    }
+}
+
+.playerList {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 60vh;
+}
+
+.loadingContainer,
+.errorContainer,
+.emptyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    text-align: center;
+
+    p {
+        margin: 1rem 0;
+        color: $text-muted;
+    }
+}
+
+.retryButton,
+.resetButton {
+    background-color: $primary-color;
+    color: $text-dark;
+    border: none;
+    border-radius: $border-radius;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: lighten($primary-color, 10%);
+    }
+}
+
+.infoSection {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    @include media-breakpoint-down(lg) {
+        width: 100%;
+    }
+}
+
+.queueInfo,
+.yourStats,
+.howToPlay {
+    background-color: rgba($bg-darker, 0.5);
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+    padding: 1rem;
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        color: $primary-color;
+        font-size: 1.2rem;
+        border-bottom: 1px solid $border-color;
+        padding-bottom: 0.5rem;
+    }
+}
+
+.queueStats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.queueStat {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .queueIcon {
+        color: $primary-color;
+        font-size: 1rem;
+    }
+
+    .queueLabel {
+        color: $text-muted;
+        font-size: 0.9rem;
+    }
+
+    .queueValue {
+        margin-left: auto;
+        font-weight: 600;
+        color: $text-light;
+    }
+}
+
+.statsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.statItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .statLabel {
+        color: $text-muted;
+        font-size: 0.9rem;
+    }
+
+    .statValue {
+        font-weight: 600;
+        color: $text-light;
+    }
+}
+
+.instructions {
+    padding-left: 1.5rem;
+    margin: 0;
+
+    li {
+        margin-bottom: 0.5rem;
+        color: $text-muted;
+
+        strong {
+            color: $primary-color;
+        }
+    }
+}

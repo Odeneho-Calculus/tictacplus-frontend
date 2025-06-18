@@ -1,0 +1,1138 @@
+@use '../../styles/variables' as vars;
+@use '../../styles/mixins' as mix;
+
+.game {
+    min-height: 100vh;
+    padding: vars.$spacing-4 vars.$spacing-6;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-6;
+
+    // 3D Background effects
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 80% 70%, rgba(255, 0, 110, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(131, 56, 236, 0.03) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: -1;
+        animation: gameBgShift 30s ease-in-out infinite;
+    }
+
+    @include mix.mobile {
+        padding: vars.$spacing-3 vars.$spacing-4;
+        gap: vars.$spacing-4;
+        max-width: 100%;
+    }
+
+    @include mix.tablet {
+        padding: vars.$spacing-4 vars.$spacing-5;
+        gap: vars.$spacing-5;
+    }
+}
+
+.loadingContainer,
+.errorContainer,
+.noGameContainer {
+    @include mix.flex-center;
+    flex-direction: column;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem;
+    transform-style: preserve-3d;
+}
+
+.errorTitle,
+.noGameTitle {
+    font-family: vars.$font-heading;
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    color: white;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateZ(15px);
+}
+
+.errorMessage,
+.noGameMessage {
+    font-family: vars.$font-primary;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    transform: translateZ(10px);
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 1rem;
+    transform-style: preserve-3d;
+    transform: translateZ(20px);
+
+    @include mix.mobile {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+// Header
+.header {
+    @include mix.flex-between;
+    padding: vars.$spacing-5;
+    background: vars.$glass-bg-dark;
+    backdrop-filter: vars.$glass-blur;
+    -webkit-backdrop-filter: vars.$glass-blur;
+    border: 1px solid vars.$glass-border-dark;
+    border-radius: vars.$rounded-xl;
+    box-shadow: vars.$shadow-3d-dark;
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    // Glowing border effect
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg,
+                transparent,
+                var(--neon-blue, #00d4ff),
+                var(--neon-pink, #ff006e),
+                transparent);
+        animation: borderGlow 3s ease-in-out infinite;
+    }
+
+    @include mix.mobile {
+        flex-direction: column;
+        gap: vars.$spacing-3;
+        padding: vars.$spacing-4;
+    }
+
+    @include mix.tablet {
+        padding: vars.$spacing-4;
+        gap: vars.$spacing-3;
+    }
+}
+
+.playerInfo {
+    @include mix.flex-center;
+    gap: vars.$spacing-6;
+    transform-style: preserve-3d;
+
+    @include mix.mobile {
+        gap: vars.$spacing-4;
+    }
+}
+
+.player {
+    @include mix.flex-center;
+    gap: vars.$spacing-3;
+    padding: vars.$spacing-4;
+    border-radius: vars.$rounded-lg;
+    transition: all 0.3s vars.$ease-smooth;
+    transform-style: preserve-3d;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    &.active {
+        background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-purple, #8338ec));
+        color: white;
+        transform: scale(1.05) translateZ(10px);
+        box-shadow:
+            0 10px 20px rgba(0, 0, 0, 0.3),
+            0 0 15px rgba(0, 212, 255, 0.5);
+    }
+
+    &.winner {
+        background: linear-gradient(135deg, var(--neon-green, #4ade80), var(--neon-blue, #00d4ff));
+        color: white;
+        animation: winnerPulse 2s infinite;
+        box-shadow:
+            0 10px 20px rgba(0, 0, 0, 0.3),
+            0 0 25px rgba(74, 222, 128, 0.6);
+    }
+
+    @include mix.mobile {
+        padding: vars.$spacing-3;
+        gap: vars.$spacing-2;
+    }
+}
+
+.playerSymbol {
+    @include mix.flex-center;
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: vars.$font-gaming;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transform: translateZ(15px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s vars.$ease-bounce;
+
+    &:hover {
+        transform: translateZ(20px) scale(1.1);
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.3),
+            0 0 15px rgba(0, 212, 255, 0.5);
+    }
+
+    @include mix.mobile {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
+}
+
+.playerDetails {
+    text-align: left;
+    transform: translateZ(5px);
+
+    @include mix.mobile {
+        text-align: center;
+    }
+}
+
+.playerName {
+    font-family: vars.$font-heading;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    @include mix.mobile {
+        font-size: 1rem;
+    }
+}
+
+.playerType {
+    font-family: vars.$font-futuristic;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+// Online game specific styles
+.player.online {
+    border: 2px solid var(--neon-cyan, #00f5ff);
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+
+    &.currentUser {
+        border-color: var(--neon-green, #39ff14);
+        box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+    }
+}
+
+.youIndicator {
+    font-size: 0.7rem;
+    color: var(--neon-green, #39ff14);
+    font-weight: 600;
+    margin-left: 0.5rem;
+    text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+}
+
+.onlinePlayerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.playerElo {
+    font-size: 0.7rem;
+    color: var(--neon-yellow, #ffff00);
+    font-weight: 600;
+    text-shadow: 0 0 5px rgba(255, 255, 0, 0.3);
+}
+
+.connectionStatus {
+    font-size: 0.8rem;
+
+    &.connected {
+        color: var(--neon-green, #39ff14);
+        text-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+    }
+
+    &.disconnected {
+        color: var(--neon-red, #ff073a);
+        text-shadow: 0 0 5px rgba(255, 7, 58, 0.5);
+        animation: pulse 1s infinite;
+    }
+}
+
+.onlineVs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.vsText {
+    font-family: vars.$font-gaming;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--neon-pink, #ff006e);
+    text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
+}
+
+.connectionIndicator {
+    font-size: 0.8rem;
+    animation: pulse 2s infinite;
+}
+
+.onlineBadge {
+    background: var(--neon-red, #ff073a);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    text-shadow: none;
+    box-shadow: 0 0 10px rgba(255, 7, 58, 0.5);
+    animation: pulse 2s infinite;
+}
+
+.gameDetails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+
+    @include mix.mobile {
+        gap: 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+.gameId {
+    font-family: vars.$font-futuristic;
+    font-size: 0.7rem;
+    color: var(--neon-cyan, #00f5ff);
+    background: rgba(0, 245, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid var(--neon-cyan, #00f5ff);
+    text-shadow: 0 0 5px rgba(0, 245, 255, 0.3);
+}
+
+.spectatorCount {
+    font-size: 0.7rem;
+    color: var(--neon-purple, #bf00ff);
+    background: rgba(191, 0, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid var(--neon-purple, #bf00ff);
+    text-shadow: 0 0 5px rgba(191, 0, 255, 0.3);
+}
+
+.vs {
+    font-family: vars.$font-gaming;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--neon-pink, #ff006e);
+    text-shadow: 0 0 10px rgba(255, 0, 110, 0.5);
+    transform: translateZ(10px);
+    transition: all 0.3s vars.$ease-bounce;
+
+    &:hover {
+        transform: translateZ(15px) scale(1.2);
+        text-shadow: 0 0 15px rgba(255, 0, 110, 0.7);
+    }
+
+    @include mix.mobile {
+        font-size: 1.5rem;
+    }
+}
+
+.gameInfo {
+    text-align: right;
+    transform: translateZ(10px);
+
+    @include mix.mobile {
+        text-align: center;
+    }
+}
+
+.gameMode {
+    font-family: vars.$font-futuristic;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--neon-blue, #00d4ff);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+    letter-spacing: 0.05em;
+}
+
+.moveCount {
+    font-family: vars.$font-primary;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.05em;
+}
+
+// Status
+.status {
+    text-align: center;
+    transform-style: preserve-3d;
+    position: relative;
+    flex-shrink: 0;
+
+    // Glowing orb behind status
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle,
+                rgba(0, 212, 255, 0.05) 0%,
+                rgba(255, 0, 110, 0.05) 50%,
+                transparent 100%);
+        transform: translate(-50%, -50%) rotateX(45deg);
+        border-radius: 50%;
+        animation: statusGlow 8s ease-in-out infinite;
+        z-index: -1;
+    }
+
+    @include mix.mobile {
+        &::before {
+            width: 150px;
+            height: 150px;
+        }
+    }
+}
+
+.statusText {
+    font-family: vars.$font-heading;
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    color: white;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateZ(15px);
+
+    &.thinking {
+        color: var(--neon-yellow, #facc15);
+        text-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+        animation: thinkingPulse 1.5s infinite;
+    }
+
+    &.finished {
+        color: var(--neon-green, #4ade80);
+        text-shadow: 0 0 15px rgba(74, 222, 128, 0.5);
+        animation: finishedGlow 3s ease-in-out infinite;
+    }
+
+    @include mix.mobile {
+        font-size: 1.8rem;
+    }
+}
+
+.turnIndicator {
+    font-family: vars.$font-futuristic;
+    font-size: 1.1rem;
+    color: var(--neon-pink, #ff006e);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    animation: turnIndicatorPulse 2s infinite;
+    transform: translateZ(10px);
+    text-shadow: 0 0 10px rgba(255, 0, 110, 0.4);
+}
+
+// Board
+.boardContainer {
+    @include mix.flex-center;
+    transform-style: preserve-3d;
+    transform: translateZ(5px);
+    flex: 1;
+    min-height: 0;
+    padding: vars.$spacing-4 0;
+
+    // Add a subtle glow around the board
+    &::after {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        right: -20px;
+        bottom: -20px;
+        background: radial-gradient(circle,
+                rgba(0, 212, 255, 0.05) 0%,
+                transparent 70%);
+        z-index: -1;
+        border-radius: 20px;
+    }
+
+    @include mix.mobile {
+        padding: vars.$spacing-3 0;
+
+        &::after {
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+        }
+    }
+}
+
+// Timer container for online games
+.timerContainer {
+    @include mix.flex-center;
+    margin: vars.$spacing-4 0;
+    transform-style: preserve-3d;
+    transform: translateZ(3px);
+
+    @include mix.mobile {
+        margin: vars.$spacing-3 0;
+    }
+}
+
+// Controls
+.controls {
+    @include mix.flex-center;
+    gap: 1.5rem;
+    transform-style: preserve-3d;
+    transform: translateZ(20px);
+    flex-shrink: 0;
+    padding: vars.$spacing-4 0;
+
+    @include mix.mobile {
+        flex-direction: column;
+        gap: 1rem;
+        padding: vars.$spacing-3 0;
+    }
+
+    @include mix.tablet {
+        flex-wrap: wrap;
+        gap: 1.25rem;
+    }
+}
+
+.controlButton {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    min-width: 150px;
+    font-family: vars.$font-futuristic;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    @include mix.mobile {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+.button {
+    @include mix.button-primary;
+    padding: vars.$spacing-3 vars.$spacing-6;
+    font-size: vars.$text-base;
+    border-radius: vars.$rounded-lg;
+}
+
+// Move History
+.moveHistory {
+    background: vars.$glass-bg-dark;
+    backdrop-filter: vars.$glass-blur;
+    -webkit-backdrop-filter: vars.$glass-blur;
+    border: 1px solid vars.$glass-border-dark;
+    border-radius: vars.$rounded-xl;
+    padding: vars.$spacing-5;
+    box-shadow: vars.$shadow-lg;
+    flex-shrink: 0;
+
+    h3 {
+        font-family: vars.$font-futuristic;
+        font-size: vars.$text-lg;
+        font-weight: vars.$font-semibold;
+        margin-bottom: vars.$spacing-4;
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    @include mix.mobile {
+        padding: vars.$spacing-4;
+
+        h3 {
+            font-size: vars.$text-base;
+        }
+    }
+}
+
+.moves {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: vars.$spacing-2;
+    max-height: 180px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: vars.$rounded;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: vars.$rounded;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    @include mix.mobile {
+        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+        max-height: 150px;
+    }
+}
+
+.move {
+    @include mix.flex-center;
+    gap: vars.$spacing-1;
+    padding: vars.$spacing-2;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: vars.$rounded-md;
+    font-size: vars.$text-sm;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all vars.$transition-base;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-1px);
+    }
+}
+
+.moveNumber {
+    font-weight: vars.$font-semibold;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: vars.$font-gaming;
+}
+
+.movePlayer {
+    font-weight: vars.$font-bold;
+    color: var(--neon-blue, #00d4ff);
+    font-family: vars.$font-gaming;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+}
+
+.movePosition {
+    font-family: vars.$font-mono;
+    font-size: vars.$text-xs;
+    background: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 2px 6px;
+    border-radius: vars.$rounded-sm;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// Game Over Modal
+.gameOverModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    @include mix.flex-center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: vars.$spacing-4;
+}
+
+.modalContent {
+    background: vars.$glass-bg-dark;
+    backdrop-filter: vars.$glass-blur;
+    -webkit-backdrop-filter: vars.$glass-blur;
+    border: 2px solid vars.$glass-border-dark;
+    border-radius: vars.$rounded-3xl;
+    padding: vars.$spacing-8;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-shadow: vars.$shadow-3d-dark;
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+
+    // Animated background gradient
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg,
+                transparent,
+                rgba(0, 212, 255, 0.1),
+                transparent,
+                rgba(255, 0, 110, 0.1),
+                transparent,
+                rgba(131, 56, 236, 0.1),
+                transparent);
+        animation: modalBgRotate 20s linear infinite;
+        z-index: -1;
+    }
+
+    // Glowing border effect
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: vars.$rounded-3xl;
+        padding: 2px;
+        background: linear-gradient(45deg,
+                var(--neon-blue, #00d4ff),
+                var(--neon-pink, #ff006e),
+                var(--neon-purple, #8338ec),
+                var(--neon-blue, #00d4ff));
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        animation: borderGlow 3s ease-in-out infinite;
+        z-index: -1;
+    }
+
+    @include mix.mobile {
+        padding: vars.$spacing-6;
+        max-width: 95%;
+    }
+}
+
+.modalTitle {
+    font-family: vars.$font-heading;
+    font-size: vars.$text-4xl;
+    font-weight: vars.$font-extrabold;
+    margin-bottom: vars.$spacing-6;
+    color: white;
+    text-shadow: 0 0 20px rgba(74, 222, 128, 0.6);
+    transform: translateZ(20px);
+    background: linear-gradient(135deg,
+            var(--neon-green, #4ade80),
+            var(--neon-blue, #00d4ff));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    @include mix.mobile {
+        font-size: vars.$text-3xl;
+    }
+}
+
+.modalSubtitle {
+    font-family: vars.$font-futuristic;
+    font-size: vars.$text-lg;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: vars.$spacing-6;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transform: translateZ(15px);
+}
+
+.gameStats {
+    margin-bottom: vars.$spacing-6;
+    padding: vars.$spacing-5;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: vars.$rounded-xl;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateZ(10px);
+    backdrop-filter: blur(5px);
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: vars.$spacing-4;
+    margin-bottom: vars.$spacing-4;
+
+    @include mix.mobile {
+        grid-template-columns: 1fr;
+        gap: vars.$spacing-3;
+    }
+}
+
+.stat {
+    @include mix.flex-column-center;
+    gap: vars.$spacing-1;
+    padding: vars.$spacing-3;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: vars.$rounded-lg;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all vars.$transition-base;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+}
+
+.statLabel {
+    font-family: vars.$font-futuristic;
+    font-size: vars.$text-xs;
+    font-weight: vars.$font-medium;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.statValue {
+    font-family: vars.$font-gaming;
+    font-size: vars.$text-xl;
+    font-weight: vars.$font-bold;
+    color: var(--neon-blue, #00d4ff);
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.achievements {
+    margin-bottom: vars.$spacing-6;
+    padding: vars.$spacing-4;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: vars.$rounded-lg;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.achievementTitle {
+    font-family: vars.$font-futuristic;
+    font-size: vars.$text-sm;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: vars.$spacing-3;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.achievementsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: vars.$spacing-2;
+    justify-content: center;
+}
+
+.achievement {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-1;
+    padding: vars.$spacing-1 vars.$spacing-2;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: vars.$rounded;
+    font-size: vars.$text-xs;
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.modalActions {
+    @include mix.flex-center;
+    gap: vars.$spacing-4;
+    transform: translateZ(15px);
+
+    @include mix.mobile {
+        flex-direction: column;
+        gap: vars.$spacing-3;
+    }
+}
+
+.actionButton {
+    padding: vars.$spacing-3 vars.$spacing-6;
+    font-family: vars.$font-futuristic;
+    font-weight: vars.$font-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: vars.$rounded-xl;
+    transition: all vars.$transition-base;
+    position: relative;
+    overflow: hidden;
+    min-width: 140px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    &:hover::before {
+        left: 100%;
+    }
+
+    @include mix.mobile {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+.primaryButton {
+    @include mix.button-primary;
+    padding: vars.$spacing-3 vars.$spacing-6;
+    font-size: vars.$text-base;
+    border-radius: vars.$rounded-lg;
+    min-width: 120px;
+
+    @include mix.mobile {
+        width: 100%;
+    }
+}
+
+.secondaryButton {
+    @include mix.button-secondary;
+    padding: vars.$spacing-3 vars.$spacing-6;
+    font-size: vars.$text-base;
+    border-radius: vars.$rounded-lg;
+    min-width: 120px;
+
+    @include mix.mobile {
+        width: 100%;
+    }
+}
+
+// Animations
+@keyframes gameBgShift {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.8;
+    }
+
+    25% {
+        transform: rotate(5deg) scale(1.05);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: rotate(0deg) scale(0.95);
+        opacity: 1;
+    }
+
+    75% {
+        transform: rotate(-5deg) scale(1.02);
+        opacity: 0.7;
+    }
+}
+
+@keyframes statusGlow {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) rotateX(45deg) scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) rotateX(45deg) scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+@keyframes borderGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes winnerPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow:
+            0 10px 20px rgba(0, 0, 0, 0.3),
+            0 0 25px rgba(74, 222, 128, 0.6);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow:
+            0 15px 30px rgba(0, 0, 0, 0.3),
+            0 0 35px rgba(74, 222, 128, 0.8);
+    }
+}
+
+@keyframes thinkingPulse {
+
+    0%,
+    100% {
+        text-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+    }
+
+    50% {
+        text-shadow: 0 0 25px rgba(250, 204, 21, 0.8);
+    }
+}
+
+@keyframes finishedGlow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 15px rgba(74, 222, 128, 0.5);
+    }
+
+    50% {
+        text-shadow: 0 0 30px rgba(74, 222, 128, 0.8);
+    }
+}
+
+@keyframes turnIndicatorPulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+        transform: translateZ(10px) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateZ(15px) scale(1.05);
+    }
+}
+
+@keyframes modalBgRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Theme variations
+[data-theme="light"] {
+    .gameOverModal {
+        background: rgba(255, 255, 255, 0.9);
+    }
+}
+
+[data-theme="dark"] {
+    .gameOverModal {
+        background: rgba(0, 0, 0, 0.9);
+    }
+}
+
+[data-theme="neon"] {
+    .player {
+        &.active {
+            background: linear-gradient(135deg, vars.$neon-primary, vars.$neon-secondary);
+            box-shadow: 0 0 30px rgba(vars.$neon-primary, 0.5);
+        }
+
+        &.winner {
+            background: linear-gradient(135deg, vars.$neon-success, vars.$neon-primary);
+            box-shadow: 0 0 40px rgba(vars.$neon-success, 0.6);
+        }
+    }
+
+    .playerSymbol {
+        border-color: vars.$neon-primary;
+        box-shadow: 0 0 10px rgba(vars.$neon-primary, 0.3);
+    }
+
+    .statusText {
+        &.thinking {
+            color: vars.$neon-warning;
+            text-shadow: 0 0 10px rgba(vars.$neon-warning, 0.5);
+        }
+
+        &.finished {
+            color: vars.$neon-success;
+            text-shadow: 0 0 15px rgba(vars.$neon-success, 0.5);
+        }
+    }
+
+    .modalContent {
+        border: 2px solid vars.$neon-primary;
+        box-shadow: 0 0 30px rgba(vars.$neon-primary, 0.3);
+    }
+
+    .modalTitle {
+        color: vars.$neon-success;
+        text-shadow: 0 0 20px rgba(vars.$neon-success, 0.5);
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .player {
+        border: 2px solid currentColor !important;
+
+        &.active {
+            background: black !important;
+            color: white !important;
+        }
+    }
+
+    .modalContent {
+        border: 3px solid currentColor !important;
+    }
+}
+
+// Print styles
+@media print {
+    .game {
+        background: white !important;
+        color: black !important;
+    }
+
+    .controls,
+    .gameOverModal {
+        display: none !important;
+    }
+
+    .header,
+    .moveHistory {
+        background: white !important;
+        border: 2px solid black !important;
+    }
+}

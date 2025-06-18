@@ -1,0 +1,292 @@
+.errorDisplay {
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+    border-left: 4px solid;
+    background: var(--surface-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.titleSection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+    }
+}
+
+.content {
+    .message {
+        margin: 0 0 12px 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: var(--text-primary);
+        white-space: pre-line;
+    }
+
+    .action {
+        margin: 12px 0 0 0;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+}
+
+.fieldErrors {
+    margin: 12px 0;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fieldErrorsTitle {
+    margin: 0 0 8px 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.fieldErrorsList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.fieldError {
+    margin: 4px 0;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+
+    strong {
+        color: var(--accent-color);
+        text-transform: capitalize;
+    }
+}
+
+.details {
+    margin: 12px 0 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.detailsSummary {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: 4px 4px 0 0;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.detailsContent {
+    padding: 12px;
+    margin: 0;
+    font-size: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-secondary);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    border-radius: 0 0 4px 4px;
+}
+
+// Variant styles
+.default {
+    // Default styles already applied above
+    margin: 0;
+}
+
+.inline {
+    margin: 8px 0;
+    padding: 12px;
+    font-size: 0.85rem;
+
+    .title {
+        font-size: 0.9rem;
+    }
+
+    .message {
+        font-size: 0.8rem;
+    }
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 400px;
+    margin: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+// Type-specific styles
+.error {
+    border-left-color: #ff4757;
+
+    .icon {
+        color: #ff4757;
+    }
+}
+
+.validation {
+    border-left-color: #ffa502;
+
+    .icon {
+        color: #ffa502;
+    }
+}
+
+.network {
+    border-left-color: #3742fa;
+
+    .icon {
+        color: #3742fa;
+    }
+}
+
+// Dark theme adjustments
+[data-theme="dark"] {
+    .errorDisplay {
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+        &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    .fieldErrors {
+        background: rgba(0, 0, 0, 0.2);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .details {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .detailsSummary {
+        background: rgba(0, 0, 0, 0.2);
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    .detailsContent {
+        background: rgba(0, 0, 0, 0.4);
+    }
+}
+
+// Neon theme adjustments
+[data-theme="neon"] {
+    .errorDisplay {
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+
+        &:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+    }
+
+    .error {
+        border-left-color: #ff006e;
+        box-shadow: 0 0 20px rgba(255, 0, 110, 0.1);
+
+        .icon {
+            color: #ff006e;
+        }
+    }
+
+    .validation {
+        border-left-color: #ffbe0b;
+        box-shadow: 0 0 20px rgba(255, 190, 11, 0.1);
+
+        .icon {
+            color: #ffbe0b;
+        }
+    }
+
+    .network {
+        border-left-color: #8338ec;
+        box-shadow: 0 0 20px rgba(131, 56, 236, 0.1);
+
+        .icon {
+            color: #8338ec;
+        }
+    }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .toast {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+
+    .errorDisplay {
+        padding: 12px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .titleSection {
+        width: 100%;
+    }
+
+    .closeButton {
+        align-self: flex-end;
+    }
+}

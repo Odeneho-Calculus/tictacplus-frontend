@@ -1,0 +1,530 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mix;
+
+// Advanced 3D Card Component with Glass Morphism
+.card {
+    position: relative;
+    border-radius: vars.$rounded-2xl;
+    padding: 1.5rem;
+    transition: all 0.4s vars.$ease-smooth;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    overflow: hidden;
+
+    // Disable text selection
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    // Remove tap highlight on mobile
+    -webkit-tap-highlight-color: transparent;
+}
+
+// Background layers for 3D effect
+.cardBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.cardGlow {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.cardShine {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(45deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.03) 30%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0.03) 70%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.cardEdge {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border-radius: inherit;
+    z-index: 0;
+    opacity: 0.3;
+    transition: all 0.3s ease;
+}
+
+.cardContent {
+    position: relative;
+    z-index: 10;
+    transform: translateZ(5px);
+}
+
+// Elevation Variants
+.elevation-low {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.elevation-medium {
+    box-shadow: vars.$shadow-3d-dark;
+}
+
+.elevation-high {
+    box-shadow: vars.$shadow-3d-neon;
+}
+
+// Interactive Card
+.interactive {
+    cursor: pointer;
+
+    &:hover {
+        .cardShine {
+            opacity: 1;
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+    }
+}
+
+// Glass Morphism Effect
+.glassMorphism {
+    background: vars.$glass-bg-dark;
+    backdrop-filter: vars.$glass-blur;
+    -webkit-backdrop-filter: vars.$glass-blur;
+    border: 1px solid vars.$glass-border-dark;
+
+    .cardBg {
+        background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(255, 255, 255, 0.02) 100%);
+    }
+}
+
+// Glow Effect
+.glowEffect {
+    &:hover {
+        .cardGlow {
+            opacity: 0.5;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+    }
+}
+
+// Holographic Effect
+.holographic {
+    .cardBg {
+        background: linear-gradient(125deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(0, 212, 255, 0.05) 25%,
+                rgba(255, 0, 110, 0.05) 50%,
+                rgba(131, 56, 236, 0.05) 75%,
+                rgba(255, 255, 255, 0.05) 100%);
+        background-size: 400% 400%;
+        animation: holographicShift 8s ease infinite;
+    }
+
+    &:hover .cardBg {
+        animation-play-state: paused;
+    }
+}
+
+// Neon Border Effect
+.neonBorder {
+    border: 2px solid transparent;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: inherit;
+        background: linear-gradient(45deg,
+                var(--neon-blue, #00d4ff) 0%,
+                var(--neon-pink, #ff006e) 50%,
+                var(--neon-green, #8338ec) 100%);
+        background-size: 200% 200%;
+        animation: borderGlow 3s ease infinite;
+        z-index: 0;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: inherit;
+        background: inherit;
+        z-index: 1;
+    }
+
+    .cardContent {
+        z-index: 20;
+        position: relative;
+        color: white;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    }
+}
+
+// Floating Effect
+.floating {
+    animation: floatingCard 6s ease-in-out infinite;
+}
+
+// Card Variants
+.default {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .cardGlow {
+        background: radial-gradient(circle,
+                rgba(0, 212, 255, 0.3) 0%,
+                transparent 70%);
+    }
+}
+
+.game {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(131, 56, 236, 0.2),
+        inset 0 0 10px rgba(0, 212, 255, 0.1);
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0);
+    transition: all 0.3s ease;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg,
+                rgba(0, 212, 255, 0.05) 0%,
+                rgba(131, 56, 236, 0.05) 50%,
+                rgba(255, 0, 110, 0.05) 100%);
+        border-radius: inherit;
+        z-index: 0;
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+    }
+
+    .cardGlow {
+        background: radial-gradient(circle,
+                rgba(131, 56, 236, 0.2) 0%,
+                transparent 70%);
+        filter: blur(10px);
+        opacity: 0.3;
+    }
+
+    .cardEdge {
+        background: linear-gradient(135deg,
+                rgba(0, 212, 255, 0.1) 0%,
+                rgba(131, 56, 236, 0.1) 50%,
+                rgba(255, 0, 110, 0.1) 100%);
+        opacity: 0.3;
+        transform: translateZ(-5px);
+    }
+
+    .cardContent {
+        transform: translateZ(10px);
+    }
+
+    &:hover {
+        transform: perspective(1000px) translateZ(5px) scale(1.02);
+        border-color: rgba(255, 255, 255, 0.25);
+        box-shadow:
+            0 15px 30px rgba(0, 0, 0, 0.4),
+            0 0 20px rgba(131, 56, 236, 0.3),
+            inset 0 0 15px rgba(0, 212, 255, 0.15);
+
+        &::before {
+            opacity: 0.7;
+        }
+
+        .cardGlow {
+            opacity: 0.5;
+        }
+
+        .cardEdge {
+            opacity: 0.5;
+        }
+    }
+}
+
+.feature {
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .cardGlow {
+        background: radial-gradient(circle,
+                rgba(0, 212, 255, 0.2) 0%,
+                transparent 70%);
+    }
+}
+
+.stats {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: none !important;
+
+    .cardGlow {
+        display: none;
+    }
+
+    .cardShine {
+        display: none;
+    }
+
+    .cardEdge {
+        display: none;
+    }
+
+    .cardContent {
+        z-index: 20;
+        position: relative;
+        color: white;
+        font-weight: 600;
+    }
+}
+
+.profile {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .cardGlow {
+        background: radial-gradient(circle,
+                rgba(255, 0, 110, 0.2) 0%,
+                transparent 70%);
+    }
+}
+
+.neon {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--neon-blue, #00d4ff);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+
+    .cardGlow {
+        background: radial-gradient(circle,
+                rgba(0, 212, 255, 0.3) 0%,
+                transparent 70%);
+    }
+
+    .cardEdge {
+        background: rgba(0, 212, 255, 0.1);
+    }
+}
+
+.danger {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--neon-red, #ff006e);
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+
+    .cardGlow {
+        background: radial-gradient(circle,
+                rgba(255, 0, 110, 0.3) 0%,
+                transparent 70%);
+    }
+
+    .cardEdge {
+        background: rgba(255, 0, 110, 0.1);
+    }
+
+    &:hover {
+        border-color: var(--neon-red, #ff006e);
+        box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
+
+        .cardGlow {
+            opacity: 0.6;
+        }
+    }
+}
+
+// Animations
+@keyframes holographicShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+    }
+
+    25% {
+        background-position: 100% 50%;
+        filter: hue-rotate(90deg);
+    }
+
+    50% {
+        background-position: 100% 100%;
+        filter: hue-rotate(180deg);
+    }
+
+    75% {
+        background-position: 0% 100%;
+        filter: hue-rotate(270deg);
+    }
+}
+
+@keyframes borderGlow {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes floatingCard {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+// Theme variations
+:global([data-theme="light"]) {
+    .card {
+        background: rgba(255, 255, 255, 0.8);
+        border-color: rgba(0, 0, 0, 0.1);
+
+        &.glassMorphism {
+            background: vars.$glass-bg-light;
+            backdrop-filter: vars.$glass-blur;
+            -webkit-backdrop-filter: vars.$glass-blur;
+            border: 1px solid vars.$glass-border-light;
+        }
+    }
+}
+
+:global([data-theme="neon"]) {
+    .card {
+        &.neonBorder {
+            border-color: var(--neon-blue, #00ffff);
+            box-shadow: 0 0 20px var(--neon-blue, #00ffff);
+
+            &::before {
+                background: linear-gradient(45deg,
+                        var(--neon-blue, #00ffff) 0%,
+                        var(--neon-pink, #ff00ff) 50%,
+                        var(--neon-green, #00ff00) 100%);
+            }
+        }
+
+        &.glowEffect:hover .cardGlow {
+            box-shadow: 0 0 30px var(--neon-blue, #00ffff);
+        }
+    }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none !important;
+        animation: none !important;
+
+        .cardBg,
+        .cardGlow,
+        .cardShine,
+        .cardEdge {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        &.holographic .cardBg {
+            animation: none !important;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        &.neonBorder::before {
+            animation: none !important;
+        }
+
+        &.floating {
+            animation: none !important;
+        }
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .card {
+        background: black !important;
+        border: 2px solid white !important;
+        box-shadow: none !important;
+
+        &::before,
+        &::after,
+        .cardBg,
+        .cardGlow,
+        .cardShine,
+        .cardEdge {
+            display: none !important;
+        }
+    }
+
+    :global([data-theme="light"]) .card {
+        background: white !important;
+        border: 2px solid black !important;
+    }
+}
+
+// Responsive Design
+@media (max-width: vars.$breakpoint-sm) {
+    .card {
+        padding: 1rem;
+    }
+}
+
+// Print styles
+@media print {
+    .card {
+        background: white !important;
+        color: black !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+
+        &::before,
+        &::after,
+        .cardBg,
+        .cardGlow,
+        .cardShine,
+        .cardEdge {
+            display: none !important;
+        }
+    }
+}

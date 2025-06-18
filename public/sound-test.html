@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .music-controls {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 10px;
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎵 TicTac+ Sound System Test</h1>
+
+    <div class="status" id="status">
+        Status: Ready to test sounds...
+    </div>
+
+    <h2>🔧 Audio Context Control</h2>
+    <button onclick="initAudio()">🎵 Initialize Audio Context</button>
+    <button onclick="resumeAudio()">▶️ Resume Audio</button>
+
+    <h2>🎮 Game Sound Effects</h2>
+    <button onclick="testSound('click')">Click Sound</button>
+    <button onclick="testSound('move')">Move Sound</button>
+    <button onclick="testSound('win')">Win Sound</button>
+    <button onclick="testSound('lose')">Lose Sound</button>
+    <button onclick="testSound('draw')">Draw Sound</button>
+    <button onclick="testSound('error')">Error Sound</button>
+
+    <h2>🖱️ UI Sound Effects</h2>
+    <button onclick="testSound('buttonClick')">Button Click</button>
+    <button onclick="testSound('buttonHover')">Button Hover</button>
+    <button onclick="testSound('gameStart')">Game Start</button>
+    <button onclick="testSound('notification')">Notification</button>
+
+    <div class="music-controls">
+        <h2>🎵 Background Music</h2>
+        <button onclick="startBackgroundMusic()">🎶 Start Background Music</button>
+        <button onclick="stopBackgroundMusic()">⏹️ Stop Background Music</button>
+        <div>
+            <label>Music Volume: </label>
+            <input type="range" min="0" max="100" value="30" onchange="setMusicVolume(this.value)">
+            <span id="musicVolume">30%</span>
+        </div>
+        <div>
+            <label>Effects Volume: </label>
+            <input type="range" min="0" max="100" value="70" onchange="setEffectsVolume(this.value)">
+            <span id="effectsVolume">70%</span>
+        </div>
+    </div>
+
+    <script>
+        // Advanced Sound System Test
+        class AdvancedSoundManager {
+            constructor() {
+                this.audioContext = null;
+                this.masterGain = null;
+                this.musicGain = null;
+                this.effectsGain = null;
+                this.compressor = null;
+                this.soundBuffers = new Map();
+                this.activeSources = new Set();
+                this.backgroundMusic = null;
+                this.isInitialized = false;
+                this.isUserInteracted = false;
+
+                this.settings = {
+                    soundEnabled: true,
+                    musicEnabled: true,
+                    soundVolume: 0.7,
+                    musicVolume: 0.3,
+                    masterVolume: 1.0,
+                    compressionEnabled: true,
+                    maxConcurrentSounds: 8
+                };
+
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                const interactionEvents = ['click', 'touchstart', 'keydown'];
+                interactionEvents.forEach(event => {
+                    document.addEventListener(event, () => {
+                        if (!this.isUserInteracted) {
+                            this.isUserInteracted = true;
+                            this.initialize();
+                        }
+                    }, { once: true, passive: true });
+                });
+
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.pauseAll();
+                    } else {
+                        this.resumeAll();
+                    }
+                });
+            }
+
+            async initialize() {
+                if (this.isInitialized) return;
+
+                try {
+                    updateStatus('Initializing advanced audio system...');
+
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)({
+                        latencyHint: 'interactive',
+                        sampleRate: 44100
+                    });
+
+                    // Create master gain
+                    this.masterGain = this.audioContext.createGain();
+                    this.masterGain.gain.value = this.settings.masterVolume;
+
+                    // Create compressor for better sound quality
+                    if (this.settings.compressionEnabled) {
+                        this.compressor = this.audioContext.createDynamicsCompressor();
+                        this.compressor.threshold.value = -24;
+                        this.compressor.knee.value = 30;
+                        this.compressor.ratio.value = 12;
+                        this.compressor.attack.value = 0.003;
+                        this.compressor.release.value = 0.25;
+
+                        this.masterGain.connect(this.compressor);
+                        this.compressor.connect(this.audioContext.destination);
+                    } else {
+                        this.masterGain.connect(this.audioContext.destination);
+                    }
+
+                    // Create separate gain nodes for music and effects
+                    this.musicGain = this.audioContext.createGain();
+                    this.musicGain.gain.value = this.settings.musicVolume;
+                    this.musicGain.connect(this.masterGain);
+
+                    this.effectsGain = this.audioContext.createGain();
+                    this.effectsGain.gain.value = this.settings.soundVolume;
+                    this.effectsGain.connect(this.masterGain);
+
+                    if (this.audioContext.state === 'suspended') {
+                        await this.audioContext.resume();
+                    }
+
+                    this.isInitialized = true;
+                    updateStatus(`Advanced audio system initialized. State: ${this.audioContext.state}`);
+
+                    // Load sounds
+                    await this.loadSounds();
+
+                    // Auto-start background music after a short delay
+                    setTimeout(() => {
+                        if (this.settings.musicEnabled && this.soundBuffers.has('backgroundMusic')) {
+                            this.startBackgroundMusic();
+                        }
+                    }, 1000);
+
+                } catch (error) {
+                    updateStatus(`Failed to initialize advanced audio: ${error.message}`);
+                    this.fallbackToSimpleAudio();
+                }
+            }
+
+            fallbackToSimpleAudio() {
+                updateStatus('Falling back to HTML5 audio');
+                // Simple fallback implementation could go here
+            }
+
+            async loadSounds() {
+                const soundManifest = {
+                    'click': { path: '/assets/sounds/click.mp3', volume: 0.8, category: 'effect' },
+                    'move': { path: '/assets/sounds/move.mp3', volume: 0.7, category: 'effect' },
+                    'win': { path: '/assets/sounds/win.mp3', volume: 0.9, category: 'effect' },
+                    'lose': { path: '/assets/sounds/lose.mp3', volume: 0.8, category: 'effect' },
+                    'draw': { path: '/assets/sounds/draw.mp3', volume: 0.8, category: 'effect' },
+                    'error': { path: '/assets/sounds/error.mp3', volume: 0.6, category: 'effect' },
+                    'buttonClick': { path: '/assets/sounds/button-click.mp3', volume: 0.5, category: 'ui' },
+                    'buttonHover': { path: '/assets/sounds/button-hover.mp3', volume: 0.3, category: 'ui' },
+                    'gameStart': { path: '/assets/sounds/game-start.mp3', volume: 0.8, category: 'effect' },
+                    'notification': { path: '/assets/sounds/notification.mp3', volume: 0.7, category: 'ui' },
+                    'backgroundMusic': { path: '/assets/sounds/game-music-loop-7.mp3', volume: 1.0, category: 'music', loop: true }
+                };
+
+                let loaded = 0;
+                const total = Object.keys(soundManifest).length;
+
+                updateStatus(`Loading ${total} sounds...`);
+
+                const loadPromises = Object.entries(soundManifest).map(async ([name, config]) => {
+                    try {
+                        const response = await fetch(config.path);
+                        if (response.ok) {
+                            const arrayBuffer = await response.arrayBuffer();
+                            const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+                            this.soundBuffers.set(name, { buffer: audioBuffer, config });
+                            loaded++;
+                            updateStatus(`Loading sounds... ${loaded}/${total}`);
+                        } else {
+                            throw new Error(`HTTP ${response.status}`);
+                        }
+                    } catch (error) {
+                        console.warn(`Failed to load sound ${name}:`, error);
+                        // Create synthetic fallback
+                        const syntheticBuffer = this.createSyntheticSound(name);
+                        if (syntheticBuffer) {
+                            this.soundBuffers.set(name, {
+                                buffer: syntheticBuffer,
+                                config: { ...config, synthetic: true }
+                            });
+                            loaded++;
+                        }
+                        updateStatus(`Loading sounds... ${loaded}/${total} (${name} failed, using fallback)`);
+                    }
+                });
+
+                await Promise.allSettled(loadPromises);
+                updateStatus(`Sounds loaded: ${loaded}/${total} (${this.soundBuffers.size} available)`);
+            }
+
+            createSyntheticSound(soundType) {
+                if (!this.audioContext) return null;
+
+                const duration = 0.15;
+                const sampleRate = this.audioContext.sampleRate;
+                const buffer = this.audioContext.createBuffer(1, duration * sampleRate, sampleRate);
+                const data = buffer.getChannelData(0);
+
+                const soundConfigs = {
+                    'click': { frequency: 800, type: 'sine', decay: 8 },
+                    'move': { frequency: 600, type: 'triangle', decay: 6 },
+                    'win': { frequency: [523, 659, 784], type: 'sine', decay: 4 },
+                    'lose': { frequency: 200, type: 'sawtooth', decay: 3 },
+                    'error': { frequency: 150, type: 'square', decay: 10 },
+                    'buttonClick': { frequency: 1000, type: 'sine', decay: 12 },
+                    'buttonHover': { frequency: 400, type: 'sine', decay: 15 }
+                };
+
+                const config = soundConfigs[soundType] || soundConfigs['click'];
+                const frequencies = Array.isArray(config.frequency) ? config.frequency : [config.frequency];
+
+                for (let i = 0; i < data.length; i++) {
+                    const t = i / sampleRate;
+                    let sample = 0;
+
+                    frequencies.forEach((freq, index) => {
+                        const phaseOffset = index * Math.PI / 4;
+                        switch (config.type) {
+                            case 'sine':
+                                sample += Math.sin(2 * Math.PI * freq * t + phaseOffset);
+                                break;
+                            case 'triangle':
+                                sample += (4 / Math.PI) * Math.sin(2 * Math.PI * freq * t + phaseOffset);
+                                break;
+                            case 'sawtooth':
+                                sample += 2 * (t * freq - Math.floor(t * freq + 0.5));
+                                break;
+                            case 'square':
+                                sample += Math.sign(Math.sin(2 * Math.PI * freq * t + phaseOffset));
+                                break;
+                        }
+                    });
+
+                    const envelope = Math.exp(-t * config.decay);
+                    data[i] = (sample / frequencies.length) * envelope * 0.3;
+                }
+
+                return buffer;
+            }
+
+            async playSound(soundName, options = {}) {
+                if (!this.isInitialized) {
+                    await this.initialize();
+                }
+
+                if (!this.settings.soundEnabled) return;
+
+                if (this.audioContext.state === 'suspended') {
+                    await this.audioContext.resume();
+                }
+
+                const soundData = this.soundBuffers.get(soundName);
+                if (!soundData) {
+                    updateStatus(`Sound '${soundName}' not loaded`);
+                    return;
+                }
+
+                if (this.activeSources.size >= this.settings.maxConcurrentSounds) {
+                    console.warn('Max concurrent sounds reached');
+                    return;
+                }
+
+                try {
+                    const source = this.audioContext.createBufferSource();
+                    const gainNode = this.audioContext.createGain();
+
+                    source.buffer = soundData.buffer;
+
+                    // Calculate volume
+                    const baseVolume = soundData.config?.volume || 1;
+                    const optionVolume = options.volume !== undefined ? options.volume : 1;
+                    const categoryMultiplier = soundData.config?.category === 'music' ?
+                        this.settings.musicVolume : this.settings.soundVolume;
+
+                    gainNode.gain.value = baseVolume * optionVolume * categoryMultiplier;
+
+                    // Apply options
+                    if (options.playbackRate) {
+                        source.playbackRate.value = options.playbackRate;
+                    }
+
+                    if (options.loop !== undefined) {
+                        source.loop = options.loop;
+                    }
+
+                    // Connect audio graph
+                    source.connect(gainNode);
+                    const targetGain = soundData.config?.category === 'music' ? this.musicGain : this.effectsGain;
+                    gainNode.connect(targetGain);
+
+                    // Track active source
+                    const activeSource = { source, gainNode, soundName };
+                    this.activeSources.add(activeSource);
+
+                    // Setup cleanup
+                    source.onended = () => {
+                        this.activeSources.delete(activeSource);
+                        try {
+                            source.disconnect();
+                            gainNode.disconnect();
+                        } catch (error) {
+                            // Already disconnected
+                        }
+                    };
+
+                    source.start(0);
+                    updateStatus(`Playing: ${soundName}${soundData.config?.synthetic ? ' (synthetic)' : ''}`);
+
+                    return { source, gainNode };
+                } catch (error) {
+                    updateStatus(`Failed to play ${soundName}: ${error.message}`);
+                }
+            }
+
+            async startBackgroundMusic() {
+                if (!this.settings.musicEnabled || this.backgroundMusic) return;
+
+                if (!this.isInitialized) {
+                    await this.initialize();
+                }
+
+                const musicData = await this.playSound('backgroundMusic', { loop: true });
+                if (musicData) {
+                    this.backgroundMusic = musicData;
+                    updateStatus('Background music started with fade-in');
+
+                    // Fade in effect
+                    musicData.gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+                    musicData.gainNode.gain.linearRampToValueAtTime(
+                        musicData.gainNode.gain.value,
+                        this.audioContext.currentTime + 2.0
+                    );
+                }
+            }
+
+            stopBackgroundMusic(fadeOut = true) {
+                if (!this.backgroundMusic) {
+                    updateStatus('No background music playing');
+                    return;
+                }
+
+                try {
+                    if (fadeOut && this.audioContext) {
+                        const fadeTime = 1.5;
+                        const currentTime = this.audioContext.currentTime;
+
+                        this.backgroundMusic.gainNode.gain.setValueAtTime(
+                            this.backgroundMusic.gainNode.gain.value,
+                            currentTime
+                        );
+                        this.backgroundMusic.gainNode.gain.linearRampToValueAtTime(
+                            0,
+                            currentTime + fadeTime
+                        );
+
+                        setTimeout(() => {
+                            if (this.backgroundMusic?.source) {
+                                this.backgroundMusic.source.stop();
+                            }
+                            this.backgroundMusic = null;
+                        }, fadeTime * 1000);
+                    } else {
+                        this.backgroundMusic.source.stop();
+                        this.backgroundMusic = null;
+                    }
+
+                    updateStatus('Background music stopped');
+                } catch (error) {
+                    updateStatus(`Failed to stop background music: ${error.message}`);
+                    this.backgroundMusic = null;
+                }
+            }
+
+            pauseAll() {
+                if (this.audioContext && this.audioContext.state === 'running') {
+                    this.audioContext.suspend();
+                }
+            }
+
+            resumeAll() {
+                if (this.audioContext && this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+            }
+
+            updateSettings(newSettings) {
+                Object.assign(this.settings, newSettings);
+
+                if (this.musicGain) {
+                    this.musicGain.gain.value = this.settings.musicVolume;
+                }
+                if (this.effectsGain) {
+                    this.effectsGain.gain.value = this.settings.soundVolume;
+                }
+                if (this.masterGain) {
+                    this.masterGain.gain.value = this.settings.masterVolume;
+                }
+            }
+
+            getStatus() {
+                return {
+                    initialized: this.isInitialized,
+                    userInteracted: this.isUserInteracted,
+                    audioContextState: this.audioContext?.state || 'not created',
+                    loadedSounds: Array.from(this.soundBuffers.keys()),
+                    activeSounds: this.activeSources.size,
+                    backgroundMusicPlaying: !!this.backgroundMusic
+                };
+            }
+        }
+
+        // Initialize the advanced sound manager
+        const soundManager = new AdvancedSoundManager();
+
+        function updateStatus(message) {
+            const status = soundManager.getStatus();
+            document.getElementById('status').innerHTML = `
+                <strong>Status:</strong> ${message}<br>
+                <small>
+                    Initialized: ${status.initialized ? '✅' : '❌'} |
+                    User Interacted: ${status.userInteracted ? '✅' : '❌'} |
+                    Audio Context: ${status.audioContextState} |
+                    Active Sounds: ${status.activeSounds} |
+                    Loaded: ${status.loadedSounds.length} sounds
+                </small>
+            `;
+        }
+
+        async function initAudio() {
+            await soundManager.initialize();
+        }
+
+        async function resumeAudio() {
+            await soundManager.resumeAll();
+            const status = soundManager.getStatus();
+            updateStatus(`Audio resumed. Context state: ${status.audioContextState}`);
+        }
+
+        async function testSound(soundName) {
+            await soundManager.playSound(soundName);
+        }
+
+        async function startBackgroundMusic() {
+            await soundManager.startBackgroundMusic();
+        }
+
+        function stopBackgroundMusic() {
+            soundManager.stopBackgroundMusic();
+        }
+
+        function setMusicVolume(value) {
+            const volume = value / 100;
+            soundManager.updateSettings({ musicVolume: volume });
+            document.getElementById('musicVolume').textContent = `${value}%`;
+            updateStatus(`Music volume set to ${value}%`);
+        }
+
+        function setEffectsVolume(value) {
+            const volume = value / 100;
+            soundManager.updateSettings({ soundVolume: volume });
+            document.getElementById('effectsVolume').textContent = `${value}%`;
+            updateStatus(`Effects volume set to ${value}%`);
+        }
+
+        // Initialize status
+        updateStatus('Advanced sound system ready - click anywhere to start');
+
+        // Periodic status updates
+        setInterval(() => {
+            const status = soundManager.getStatus();
+            if (status.initialized) {
+                updateStatus('System running normally');
+            }
+        }, 5000);
+    </script>
+</body>
+
+</html>

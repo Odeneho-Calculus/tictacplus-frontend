@@ -1,0 +1,428 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.gameTimer {
+    position: relative;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    min-width: 200px;
+    text-align: center;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    @include themed() {
+        background: t('bg-secondary');
+        border-color: t('border-color');
+    }
+
+    &.warning {
+        border-color: var(--warning-color);
+        box-shadow: 0 0 15px rgba(var(--warning-rgb), 0.3);
+
+        @include themed() {
+            border-color: t('warning-color');
+            box-shadow: 0 0 15px rgba(t('warning-rgb'), 0.3);
+        }
+    }
+
+    &.critical {
+        border-color: var(--error-color);
+        box-shadow: 0 0 20px rgba(var(--error-rgb), 0.4);
+        animation: criticalPulse 1s ease-in-out infinite;
+
+        @include themed() {
+            border-color: t('error-color');
+            box-shadow: 0 0 20px rgba(t('error-rgb'), 0.4);
+        }
+    }
+}
+
+@keyframes criticalPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(var(--error-rgb), 0.4);
+    }
+
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 25px rgba(var(--error-rgb), 0.6);
+    }
+}
+
+.timerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.timerIcon {
+    color: var(--accent-primary);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+
+    @include themed() {
+        color: t('accent-primary');
+    }
+
+    .warning & {
+        color: var(--warning-color);
+
+        @include themed() {
+            color: t('warning-color');
+        }
+    }
+
+    .critical & {
+        color: var(--error-color);
+
+        @include themed() {
+            color: t('error-color');
+        }
+    }
+}
+
+.timerLabel {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+
+    @include themed() {
+        color: t('text-primary');
+    }
+}
+
+.timerDisplay {
+    margin-bottom: 1rem;
+}
+
+.timeText {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+    @include themed() {
+        color: t('text-primary');
+    }
+
+    .warning & {
+        color: var(--warning-color);
+
+        @include themed() {
+            color: t('warning-color');
+        }
+    }
+
+    .critical & {
+        color: var(--error-color);
+
+        @include themed() {
+            color: t('error-color');
+        }
+    }
+}
+
+.progressContainer {
+    position: relative;
+    height: 6px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    border-radius: 3px;
+}
+
+.progressTrack {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    border-radius: 3px;
+
+    @include themed() {
+        background: t('bg-primary');
+    }
+}
+
+.progressBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: var(--accent-primary);
+    border-radius: 3px;
+    transition: width 0.3s ease, background-color 0.3s ease;
+
+    @include themed() {
+        background: t('accent-primary');
+    }
+
+    .warning & {
+        background: var(--warning-color);
+
+        @include themed() {
+            background: t('warning-color');
+        }
+    }
+
+    .critical & {
+        background: var(--error-color);
+
+        @include themed() {
+            background: t('error-color');
+        }
+    }
+}
+
+.warningMessage {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--warning-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    @include themed() {
+        color: t('warning-color');
+    }
+}
+
+.criticalMessage {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--error-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(var(--error-rgb), 0.5);
+
+    @include themed() {
+        color: t('error-color');
+        text-shadow: 0 0 10px rgba(t('error-rgb'), 0.5);
+    }
+}
+
+.pulseEffect {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid var(--error-color);
+    border-radius: 12px;
+    pointer-events: none;
+
+    @include themed() {
+        border-color: t('error-color');
+    }
+}
+
+// Compact Timer Styles
+.compactTimer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+
+    @include themed() {
+        background: t('bg-tertiary');
+        border-color: t('border-color');
+        color: t('text-primary');
+    }
+
+    &.warning {
+        background: rgba(var(--warning-rgb), 0.1);
+        border-color: var(--warning-color);
+        color: var(--warning-color);
+
+        @include themed() {
+            background: rgba(t('warning-rgb'), 0.1);
+            border-color: t('warning-color');
+            color: t('warning-color');
+        }
+    }
+
+    &.critical {
+        background: rgba(var(--error-rgb), 0.1);
+        border-color: var(--error-color);
+        color: var(--error-color);
+        box-shadow: 0 0 10px rgba(var(--error-rgb), 0.3);
+
+        @include themed() {
+            background: rgba(t('error-rgb'), 0.1);
+            border-color: t('error-color');
+            color: t('error-color');
+            box-shadow: 0 0 10px rgba(t('error-rgb'), 0.3);
+        }
+    }
+}
+
+.compactIcon {
+    font-size: 0.75rem;
+}
+
+.compactTime {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .gameTimer {
+        min-width: 150px;
+        padding: 0.75rem;
+    }
+
+    .timeText {
+        font-size: 1.5rem;
+    }
+
+    .timerLabel {
+        font-size: 0.75rem;
+    }
+
+    .warningMessage,
+    .criticalMessage {
+        font-size: 0.625rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gameTimer {
+        min-width: 120px;
+        padding: 0.5rem;
+    }
+
+    .timeText {
+        font-size: 1.25rem;
+    }
+
+    .timerHeader {
+        margin-bottom: 0.5rem;
+    }
+
+    .timerDisplay {
+        margin-bottom: 0.75rem;
+    }
+}
+
+// Dark theme specific adjustments
+:global(.dark) {
+    .gameTimer {
+        background: var(--dark-bg-secondary);
+        border-color: var(--dark-border-color);
+    }
+
+    .progressTrack {
+        background: var(--dark-bg-primary);
+    }
+
+    .compactTimer {
+        background: var(--dark-bg-tertiary);
+        border-color: var(--dark-border-color);
+        color: var(--dark-text-primary);
+    }
+}
+
+// Neon theme specific adjustments
+:global(.neon) {
+    .gameTimer {
+        background: var(--neon-bg-secondary);
+        border: 2px solid var(--neon-accent-primary);
+        box-shadow:
+            0 0 15px rgba(var(--neon-accent-primary-rgb), 0.3),
+            inset 0 0 15px rgba(var(--neon-accent-primary-rgb), 0.1);
+
+        &.warning {
+            border-color: var(--neon-warning-color);
+            box-shadow:
+                0 0 20px rgba(var(--neon-warning-rgb), 0.4),
+                inset 0 0 15px rgba(var(--neon-warning-rgb), 0.1);
+        }
+
+        &.critical {
+            border-color: var(--neon-error-color);
+            box-shadow:
+                0 0 25px rgba(var(--neon-error-rgb), 0.5),
+                inset 0 0 15px rgba(var(--neon-error-rgb), 0.1);
+        }
+    }
+
+    .timeText {
+        text-shadow:
+            0 0 10px rgba(var(--neon-accent-primary-rgb), 0.5),
+            0 2px 4px rgba(0, 0, 0, 0.3);
+
+        .warning & {
+            text-shadow:
+                0 0 15px rgba(var(--neon-warning-rgb), 0.6),
+                0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .critical & {
+            text-shadow:
+                0 0 20px rgba(var(--neon-error-rgb), 0.7),
+                0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    .progressBar {
+        box-shadow: 0 0 10px rgba(var(--neon-accent-primary-rgb), 0.5);
+
+        .warning & {
+            box-shadow: 0 0 10px rgba(var(--neon-warning-rgb), 0.5);
+        }
+
+        .critical & {
+            box-shadow: 0 0 15px rgba(var(--neon-error-rgb), 0.6);
+        }
+    }
+
+    .compactTimer {
+        background: var(--neon-bg-tertiary);
+        border: 1px solid var(--neon-accent-primary);
+        box-shadow: 0 0 10px rgba(var(--neon-accent-primary-rgb), 0.2);
+
+        &.warning {
+            border-color: var(--neon-warning-color);
+            box-shadow: 0 0 15px rgba(var(--neon-warning-rgb), 0.3);
+        }
+
+        &.critical {
+            border-color: var(--neon-error-color);
+            box-shadow: 0 0 20px rgba(var(--neon-error-rgb), 0.4);
+        }
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .gameTimer {
+        border-width: 3px;
+    }
+
+    .timeText {
+        font-weight: 900;
+    }
+
+    .progressBar {
+        height: 8px;
+    }
+
+    .progressContainer {
+        height: 8px;
+    }
+}

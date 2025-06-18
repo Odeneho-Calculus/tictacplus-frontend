@@ -1,0 +1,70 @@
+{
+  "short_name": "TicTac+",
+  "name": "TicTac+ - Advanced AAA-Style Tic Tac Toe Game",
+  "description": "Experience the ultimate Tic Tac Toe game with stunning animations, real-time multiplayer, and advanced AI opponents.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "assets/images/logo-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/images/logo-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0ea5e9",
+  "background_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["games", "entertainment"],
+  "lang": "en",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Quick Play",
+      "short_name": "Play",
+      "description": "Start a quick game",
+      "url": "/game?mode=quick",
+      "icons": [
+        {
+          "src": "assets/images/shortcut-play.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Multiplayer",
+      "short_name": "Online",
+      "description": "Play with friends online",
+      "url": "/game?mode=multiplayer",
+      "icons": [
+        {
+          "src": "assets/images/shortcut-multiplayer.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Leaderboard",
+      "short_name": "Scores",
+      "description": "View top players",
+      "url": "/leaderboard",
+      "icons": [
+        {
+          "src": "assets/images/shortcut-leaderboard.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

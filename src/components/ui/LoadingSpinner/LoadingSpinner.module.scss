@@ -1,0 +1,344 @@
+
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mix;
+
+.loadingSpinner {
+  @include mix.flex-column-center;
+  gap: vars.$spacing-3;
+
+  &.withText {
+    gap: vars.$spacing-4;
+  }
+}
+
+.spinnerWrapper {
+  @include mix.flex-center;
+}
+
+// Default spinner
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top: 3px solid currentColor;
+  border-radius: 50%;
+
+  .spinnerInner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+}
+
+// Ring spinner
+.ring {
+  border: 3px solid transparent;
+  border-radius: 50%;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+  }
+
+  .ringInner {
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-top: 3px solid currentColor;
+    border-radius: 50%;
+  }
+}
+
+// Dots spinner
+.dotsContainer {
+  @include mix.flex-center;
+  gap: vars.$spacing-1;
+}
+
+.dot {
+  @include mix.circle(8px);
+  background: currentColor;
+}
+
+// Pulse spinner
+.pulse {
+  @include mix.circle(40px);
+  background: currentColor;
+  opacity: 0.7;
+}
+
+// Bars spinner
+.barsContainer {
+  @include mix.flex-center;
+  gap: 2px;
+  height: 20px;
+}
+
+.bar {
+  width: 3px;
+  height: 100%;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+// Text
+.text {
+  font-size: vars.$text-sm;
+  font-weight: vars.$font-medium;
+  color: inherit;
+  text-align: center;
+  opacity: 0.8;
+}
+
+// Size variations
+.small {
+  .spinner,
+  .ring {
+    @include mix.size(20px);
+    border-width: 2px;
+
+    &::before {
+      border-width: 2px;
+    }
+
+    .ringInner {
+      border-width: 2px;
+    }
+  }
+
+  .pulse {
+    @include mix.size(24px);
+  }
+
+  .dot {
+    @include mix.size(4px);
+  }
+
+  .barsContainer {
+    height: 12px;
+  }
+
+  .bar {
+    width: 2px;
+  }
+
+  .text {
+    font-size: vars.$text-xs;
+  }
+}
+
+.medium {
+  .spinner,
+  .ring {
+    @include mix.size(32px);
+    border-width: 3px;
+
+    &::before {
+      border-width: 3px;
+    }
+
+    .ringInner {
+      border-width: 3px;
+    }
+  }
+
+  .pulse {
+    @include mix.size(40px);
+  }
+
+  .dot {
+    @include mix.size(6px);
+  }
+
+  .barsContainer {
+    height: 16px;
+  }
+
+  .bar {
+    width: 3px;
+  }
+
+  .text {
+    font-size: vars.$text-sm;
+  }
+}
+
+.large {
+  .spinner,
+  .ring {
+    @include mix.size(48px);
+    border-width: 4px;
+
+    &::before {
+      border-width: 4px;
+    }
+
+    .ringInner {
+      border-width: 4px;
+    }
+  }
+
+  .pulse {
+    @include mix.size(60px);
+  }
+
+  .dot {
+    @include mix.size(8px);
+  }
+
+  .barsContainer {
+    height: 24px;
+  }
+
+  .bar {
+    width: 4px;
+  }
+
+  .text {
+    font-size: vars.$text-base;
+  }
+}
+
+// Color variations
+.primary {
+  color: vars.$primary-500;
+}
+
+.secondary {
+  color: vars.$secondary-500;
+}
+
+.accent {
+  color: vars.$accent-500;
+}
+
+.success {
+  color: vars.$success;
+}
+
+.warning {
+  color: vars.$warning;
+}
+
+.error {
+  color: vars.$error;
+}
+
+.white {
+  color: white;
+}
+
+.current {
+  color: currentColor;
+}
+
+// Theme variations
+[data-theme="light"] {
+  .loadingSpinner {
+    .spinner,
+    .ring {
+      border-color: rgba(0, 0, 0, 0.1);
+      border-top-color: currentColor;
+
+      &::before {
+        border-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+[data-theme="dark"] {
+  .loadingSpinner {
+    .spinner,
+    .ring {
+      border-color: rgba(255, 255, 255, 0.2);
+      border-top-color: currentColor;
+
+      &::before {
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+
+[data-theme="neon"] {
+  .loadingSpinner {
+    .spinner,
+    .ring {
+      border-color: rgba(vars.$neon-primary, 0.3);
+      border-top-color: vars.$neon-primary;
+      box-shadow: 0 0 10px rgba(vars.$neon-primary, 0.3);
+
+      &::before {
+        border-color: rgba(vars.$neon-primary, 0.3);
+      }
+    }
+
+    .dot,
+    .bar,
+    .pulse {
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    &.primary {
+      color: vars.$neon-primary;
+    }
+
+    &.secondary {
+      color: vars.$neon-secondary;
+    }
+
+    &.accent {
+      color: vars.$neon-accent;
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .spinner,
+  .ring,
+  .dot,
+  .pulse,
+  .bar {
+    animation: none !important;
+  }
+
+  .loadingSpinner {
+    .text {
+      opacity: 1;
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .loadingSpinner {
+    .spinner,
+    .ring {
+      border-color: currentColor;
+      border-top-color: currentColor;
+
+      &::before {
+        border-color: currentColor;
+      }
+    }
+
+    .text {
+      opacity: 1;
+      font-weight: vars.$font-bold;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .loadingSpinner {
+    display: none !important;
+  }
+}

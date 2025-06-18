@@ -1,0 +1,379 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mix;
+
+.cell {
+  @include mix.game-cell;
+  @include mix.button-reset;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+
+  // Focus styles
+  &:focus {
+    outline: none;
+
+    .focusIndicator {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &:focus-visible {
+    .focusIndicator {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  // States
+  &.empty {
+    cursor: pointer;
+
+    &:not(.disabled) {
+      &:hover {
+        background: vars.$cell-hover;
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+
+  &.occupied {
+    cursor: default;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &.lastMove {
+    border-color: vars.$accent-500;
+    box-shadow: 0 0 15px rgba(vars.$accent-500, 0.3);
+  }
+
+  &.highlighted {
+    border-color: vars.$primary-400;
+    box-shadow: 0 0 15px rgba(vars.$primary-400, 0.3);
+  }
+
+  &.winning {
+    border-color: vars.$success;
+    box-shadow: 0 0 20px rgba(vars.$success, 0.5);
+    animation: winningPulse 1s ease-in-out infinite alternate;
+  }
+
+  &.animating {
+    .ripple {
+      display: block;
+    }
+  }
+}
+
+.content {
+  @include mix.flex-center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.pieceContainer {
+  @include mix.flex-center;
+  width: 100%;
+  height: 100%;
+}
+
+.emptyIndicator {
+  @include mix.absolute-center;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+  transition: opacity vars.$transition-base;
+
+  @include mix.mobile {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.crosshair {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .horizontal,
+  .vertical {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 1px;
+  }
+
+  .horizontal {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    transform: translateY(-50%);
+  }
+
+  .vertical {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+  }
+}
+
+.positionNumber {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: vars.$text-xs;
+  font-weight: vars.$font-bold;
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: vars.$rounded;
+  width: 18px;
+  height: 18px;
+  @include mix.flex-center;
+  z-index: 3;
+
+  @include mix.mobile {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    top: 2px;
+    left: 2px;
+  }
+}
+
+.ripple {
+  @include mix.absolute-center;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  display: none;
+  z-index: 1;
+}
+
+.focusIndicator {
+  @include mix.absolute-full;
+  border: 3px solid vars.$primary-500;
+  border-radius: vars.$rounded-lg;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all vars.$transition-base;
+  z-index: 4;
+  pointer-events: none;
+}
+
+// Theme variations
+[data-theme="light"] {
+  .cell {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+
+    &:not(.disabled):hover {
+      background: rgba(0, 0, 0, 0.1);
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &.lastMove {
+      border-color: vars.$accent-600;
+    }
+
+    &.highlighted {
+      border-color: vars.$primary-500;
+    }
+  }
+
+  .crosshair {
+
+    .horizontal,
+    .vertical {
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .positionNumber {
+    color: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.7);
+  }
+}
+
+[data-theme="dark"] {
+  .cell {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:not(.disabled):hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+[data-theme="neon"] {
+  .cell {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(vars.$neon-primary, 0.3);
+
+    &:not(.disabled):hover {
+      background: rgba(vars.$neon-primary, 0.1);
+      border-color: rgba(vars.$neon-primary, 0.5);
+      box-shadow: 0 0 15px rgba(vars.$neon-primary, 0.3);
+    }
+
+    &.lastMove {
+      border-color: vars.$neon-accent;
+      box-shadow: 0 0 20px rgba(vars.$neon-accent, 0.5);
+    }
+
+    &.highlighted {
+      border-color: vars.$neon-secondary;
+      box-shadow: 0 0 20px rgba(vars.$neon-secondary, 0.4);
+    }
+
+    &.winning {
+      border-color: vars.$neon-success;
+      box-shadow:
+        0 0 20px rgba(vars.$neon-success, 0.6),
+        inset 0 0 20px rgba(vars.$neon-success, 0.2);
+    }
+  }
+
+  .crosshair {
+
+    .horizontal,
+    .vertical {
+      background: rgba(vars.$neon-primary, 0.6);
+      box-shadow: 0 0 5px rgba(vars.$neon-primary, 0.3);
+    }
+  }
+
+  .positionNumber {
+    color: vars.$neon-primary;
+    background: rgba(vars.$neon-primary, 0.1);
+    border: 1px solid rgba(vars.$neon-primary, 0.3);
+  }
+
+  .focusIndicator {
+    border-color: vars.$neon-primary;
+    box-shadow: 0 0 10px rgba(vars.$neon-primary, 0.5);
+  }
+}
+
+// Animations
+@keyframes winningPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(vars.$success, 0.5);
+  }
+
+  100% {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(vars.$success, 0.7);
+  }
+}
+
+// Responsive design
+@include mix.mobile {
+  .cell {
+    width: vars.$cell-size-mobile;
+    height: vars.$cell-size-mobile;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .cell {
+    border: 3px solid currentColor;
+    background: white;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    &.lastMove,
+    &.highlighted,
+    &.winning {
+      border-color: #000;
+      background: #ffff00;
+    }
+  }
+
+  [data-theme="dark"] .cell {
+    background: black;
+    border-color: white;
+
+    &:hover {
+      background: #333;
+    }
+
+    &.lastMove,
+    &.highlighted,
+    &.winning {
+      border-color: white;
+      background: #000080;
+    }
+  }
+
+  .crosshair {
+
+    .horizontal,
+    .vertical {
+      background: currentColor;
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .cell {
+    transition: none;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
+
+    &.winning {
+      animation: none;
+    }
+  }
+
+  .emptyIndicator {
+    transition: none;
+  }
+
+  .focusIndicator {
+    transition: none;
+  }
+}
+
+// Print styles
+@media print {
+  .cell {
+    background: white !important;
+    border: 2px solid black !important;
+    box-shadow: none !important;
+  }
+
+  .emptyIndicator,
+  .ripple,
+  .focusIndicator {
+    display: none !important;
+  }
+
+  .positionNumber {
+    color: black !important;
+    background: white !important;
+    border: 1px solid black !important;
+  }
+}

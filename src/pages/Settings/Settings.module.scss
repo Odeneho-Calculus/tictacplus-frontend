@@ -1,0 +1,1130 @@
+@use '../../styles/variables' as vars;
+@use '../../styles/mixins' as mix;
+
+// Advanced 3D Settings Page with Modern UI
+.settings {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+
+    @include mix.mobile {
+        padding: 1rem 0.5rem;
+    }
+
+    // 3D Background effects
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background:
+            radial-gradient(circle at 20% 30%, rgba(0, 212, 255, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 80% 70%, rgba(255, 0, 110, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(131, 56, 236, 0.03) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: -1;
+        animation: settingsBgShift 30s ease-in-out infinite;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+// 3D Header with Jokerman-style typography
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    transform-style: preserve-3d;
+
+    @include mix.mobile {
+        margin-bottom: 2rem;
+    }
+
+    // Glowing orb behind title
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle,
+                rgba(0, 212, 255, 0.1) 0%,
+                rgba(255, 0, 110, 0.1) 50%,
+                transparent 100%);
+        transform: translate(-50%, -50%) rotateX(45deg);
+        border-radius: 50%;
+        animation: headerGlow 8s ease-in-out infinite;
+        z-index: -1;
+    }
+}
+
+.title {
+    font-family: vars.$font-heading;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 900;
+    margin-bottom: 0.75rem;
+    line-height: 1;
+    position: relative;
+    transform-style: preserve-3d;
+
+    // Solid color for better clarity
+    color: white;
+    text-shadow:
+        0 0 5px rgba(0, 212, 255, 0.5),
+        0 0 10px rgba(0, 212, 255, 0.3);
+
+    // Subtle outline for improved readability
+    -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.5);
+
+    // Subtle holographic effect that doesn't interfere with readability
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(0, 212, 255, 0.9) 50%,
+            rgba(255, 255, 255, 1) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: titleGradient 8s ease infinite;
+
+    transform: translateZ(20px);
+
+    // Add a subtle glow behind the text
+    &::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        color: rgba(0, 212, 255, 0.2);
+        filter: blur(8px);
+    }
+
+    @include mix.mobile {
+        font-size: 2.5rem;
+    }
+}
+
+.subtitle {
+    font-family: vars.$font-futuristic;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transform: translateZ(10px);
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--neon-blue, #00d4ff), transparent);
+        transform: translateX(-50%);
+        box-shadow: 0 0 10px var(--neon-blue, #00d4ff);
+    }
+
+    @include mix.mobile {
+        font-size: 1rem;
+    }
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+
+    @include mix.tablet {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+// 3D Navigation Categories
+.categoriesNav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    position: relative;
+    height: fit-content;
+    transform-style: preserve-3d;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+
+    @include mix.tablet {
+        gap: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+
+    @include mix.mobile {
+        gap: 0.5rem;
+    }
+}
+
+.categoryButtonWrapper {
+    flex: 0 1 auto;
+}
+
+.categoryButton {
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    text-align: center;
+    white-space: nowrap;
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+        transform: translateY(-1px);
+    }
+
+    @include mix.tablet {
+        min-width: 130px;
+        padding: 0.75rem 1rem;
+    }
+
+    @include mix.mobile {
+        padding: 0.6rem 0.8rem;
+        min-width: 110px;
+    }
+}
+
+.categoryIcon {
+    font-size: 1.5rem;
+    transition: all 0.3s vars.$ease-bounce;
+    transform: translateZ(10px);
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+
+    @include mix.mobile {
+        font-size: 1.25rem;
+    }
+}
+
+.categoryTitle {
+    font-family: vars.$font-futuristic;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    transform: translateZ(5px);
+
+    @include mix.mobile {
+        font-size: 0.9rem;
+    }
+}
+
+// Settings Content with 3D Cards
+.settingsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.category {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: vars.$rounded-2xl;
+    padding: 2.5rem;
+    transition: all 0.4s vars.$ease-smooth;
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 15px 25px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    transform: translateZ(10px);
+
+    // Glowing border effect
+    &::before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        background: linear-gradient(135deg,
+                rgba(0, 212, 255, 0.5),
+                rgba(131, 56, 236, 0.2),
+                rgba(255, 0, 110, 0.5));
+        border-radius: vars.$rounded-2xl;
+        z-index: -1;
+        opacity: 0.2;
+        filter: blur(8px);
+        animation: borderGlow 4s ease-in-out infinite alternate;
+    }
+
+    // Subtle hover effect
+    &:hover {
+        box-shadow:
+            0 20px 30px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        transform: translateZ(15px);
+
+        .categoryHeader .categoryIcon {
+            transform: translateZ(20px) scale(1.1);
+            animation: iconPulse 2s ease-in-out infinite alternate;
+        }
+    }
+
+    @include mix.mobile {
+        padding: 1.75rem;
+    }
+}
+
+.categoryHeader {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    transform-style: preserve-3d;
+
+    // Glowing line effect
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg,
+                transparent,
+                var(--neon-blue, #00d4ff),
+                var(--neon-pink, #ff006e),
+                transparent);
+        animation: borderGlow 3s ease-in-out infinite;
+    }
+
+    .categoryIcon {
+        font-size: 2.5rem;
+        color: var(--neon-blue, #00d4ff);
+        text-shadow: 0 0 15px var(--neon-blue, #00d4ff);
+        transition: all 0.4s vars.$ease-bounce;
+        transform: translateZ(15px);
+    }
+
+    .categoryTitle {
+        font-family: vars.$font-heading;
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        transform: translateZ(10px);
+
+        @include mix.mobile {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+.settingsList {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+// 3D Setting Items
+.settingItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2.5rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: vars.$rounded-xl;
+    transition: all 0.3s vars.$ease-smooth;
+    transform-style: preserve-3d;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+    transform: translateZ(0);
+
+    // Subtle glow effect on hover
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: vars.$rounded-xl;
+        background: linear-gradient(135deg,
+                rgba(0, 212, 255, 0.3),
+                rgba(131, 56, 236, 0.1),
+                rgba(255, 0, 110, 0.3));
+        opacity: 0;
+        z-index: -1;
+        filter: blur(8px);
+        transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateZ(8px) translateY(-2px);
+        box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.15),
+            0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+
+        &::after {
+            opacity: 0.15;
+        }
+
+        .settingLabel {
+            color: var(--neon-blue, #00d4ff);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    @include mix.mobile {
+        flex-direction: column;
+        gap: 1.25rem;
+        align-items: stretch;
+        padding: 1.25rem;
+    }
+}
+
+.settingInfo {
+    flex: 1;
+    transform: translateZ(5px);
+}
+
+.settingLabel {
+    display: block;
+    font-family: vars.$font-futuristic;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    @include mix.mobile {
+        font-size: 1rem;
+    }
+}
+
+.settingDescription {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+    line-height: 1.5;
+
+    @include mix.mobile {
+        font-size: 0.85rem;
+    }
+}
+
+.settingControl {
+    display: flex;
+    align-items: center;
+    min-width: 180px;
+    transform: translateZ(10px);
+
+    @include mix.mobile {
+        min-width: auto;
+    }
+}
+
+// 3D Toggle Switch
+.toggleContainer {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+}
+
+.toggleInput {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked+.toggleSlider {
+        background-color: var(--neon-blue, #00d4ff);
+        box-shadow:
+            inset 0 0 10px rgba(0, 0, 0, 0.2),
+            0 0 15px rgba(0, 212, 255, 0.5);
+
+        &:before {
+            transform: translateX(28px);
+            background-color: white;
+            box-shadow:
+                0 0 10px rgba(0, 212, 255, 0.5),
+                0 0 20px rgba(0, 212, 255, 0.3);
+        }
+    }
+
+    &:focus+.toggleSlider {
+        box-shadow:
+            0 0 0 3px rgba(0, 212, 255, 0.2),
+            0 0 15px rgba(0, 212, 255, 0.3);
+    }
+}
+
+.toggleSlider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 32px;
+    transform: translateZ(0);
+    box-shadow:
+        inset 0 0 10px rgba(0, 0, 0, 0.1),
+        0 2px 5px rgba(0, 0, 0, 0.2);
+
+    &:before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 2;
+    }
+}
+
+// Select dropdown styling
+.select {
+    width: 100%;
+    min-width: 180px;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-family: vars.$font-futuristic;
+    font-size: 0.95rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    &:hover,
+    &:focus {
+        background-color: rgba(255, 255, 255, 0.12);
+        border-color: var(--neon-blue, #00d4ff);
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    }
+
+    option {
+        background-color: #1a1a1a;
+        color: white;
+    }
+
+    @include mix.mobile {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+// Range slider styling
+.rangeContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+    position: relative;
+    cursor: pointer;
+
+    &::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: var(--range-progress, 0%);
+        background: linear-gradient(90deg, var(--neon-blue, #00d4ff), var(--neon-pink, #ff006e));
+        border-radius: 3px;
+        z-index: 1;
+    }
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 2;
+        transition: all 0.2s ease;
+    }
+
+    &::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: white;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 2;
+        transition: all 0.2s ease;
+    }
+
+    &:hover::-webkit-slider-thumb,
+    &:focus::-webkit-slider-thumb {
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        transform: scale(1.1);
+    }
+
+    &:hover::-moz-range-thumb,
+    &:focus::-moz-range-thumb {
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+        transform: scale(1.1);
+    }
+}
+
+.rangeValue {
+    min-width: 40px;
+    font-family: vars.$font-futuristic;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    text-align: right;
+}
+
+// Action bar for save/cancel buttons
+.actionBar {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(0, 212, 255, 0.3);
+    z-index: 100;
+    animation: actionBarPulse 2s ease-in-out infinite alternate;
+
+    @include mix.mobile {
+        width: calc(100% - 2rem);
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+.changesText {
+    font-family: vars.$font-futuristic;
+    font-size: 1rem;
+    color: white;
+    margin: 0;
+
+    @include mix.mobile {
+        font-size: 0.9rem;
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+
+    @include mix.mobile {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+// Danger zone styling
+.dangerZone {
+    margin-top: 3rem;
+    padding: 2rem;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+
+    @include mix.mobile {
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+}
+
+.dangerTitle {
+    font-family: vars.$font-heading;
+    font-size: 1.75rem;
+    color: rgb(239, 68, 68);
+    margin: 0;
+
+    @include mix.mobile {
+        font-size: 1.5rem;
+    }
+}
+
+.dangerDescription {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    margin: 0;
+
+    @include mix.mobile {
+        font-size: 0.9rem;
+    }
+}
+
+// Button styles
+.saveButton,
+.cancelButton,
+.resetButton {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-family: vars.$font-futuristic;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s vars.$ease-bounce;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+        opacity: 0;
+        transform: rotate(45deg);
+        transition: all 0.6s ease;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+
+        &::before {
+            opacity: 0.3;
+        }
+    }
+
+    &:active {
+        transform: translateY(-2px);
+    }
+
+    @include mix.mobile {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+.saveButton {
+    background: linear-gradient(135deg, var(--neon-blue, #00d4ff), var(--neon-green, #00ff88));
+    color: white;
+    border: none;
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.2),
+        0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+.cancelButton {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.resetButton {
+    background: linear-gradient(135deg, #ff3b3b, #ff006e);
+    color: white;
+    border: none;
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.2),
+        0 0 15px rgba(239, 68, 68, 0.4);
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle, rgba(255, 59, 59, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        animation: warningPulse 2s ease-in-out infinite;
+        pointer-events: none;
+    }
+}
+
+// Animations
+@keyframes settingsBgShift {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.8;
+    }
+
+    25% {
+        transform: rotate(5deg) scale(1.05);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: rotate(0deg) scale(0.95);
+        opacity: 1;
+    }
+
+    75% {
+        transform: rotate(-5deg) scale(1.02);
+        opacity: 0.7;
+    }
+}
+
+@keyframes headerGlow {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) rotateX(45deg) scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) rotateX(45deg) scale(1.2);
+        opacity: 0.6;
+    }
+}
+
+@keyframes titleGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes holographicShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg);
+    }
+
+    25% {
+        background-position: 100% 50%;
+        filter: hue-rotate(90deg);
+    }
+
+    50% {
+        background-position: 100% 100%;
+        filter: hue-rotate(180deg);
+    }
+
+    75% {
+        background-position: 0% 100%;
+        filter: hue-rotate(270deg);
+    }
+}
+
+@keyframes borderGlow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes iconPulse {
+    0% {
+        text-shadow: 0 0 15px var(--neon-blue, #00d4ff);
+        transform: translateZ(20px) scale(1.1);
+    }
+
+    100% {
+        text-shadow: 0 0 25px var(--neon-blue, #00d4ff), 0 0 40px var(--neon-blue, #00d4ff);
+        transform: translateZ(25px) scale(1.15);
+    }
+}
+
+@keyframes actionBarPulse {
+    0% {
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(0, 212, 255, 0.3);
+    }
+
+    100% {
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.3),
+            0 0 30px rgba(0, 212, 255, 0.5);
+    }
+}
+
+@keyframes warningPulse {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+// Theme variations
+:global([data-theme="light"]) {
+    .category {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .settingItem {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .toggleSlider {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .select {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: rgba(0, 0, 0, 0.8);
+
+        option {
+            background-color: white;
+            color: black;
+        }
+    }
+}
+
+:global([data-theme="neon"]) {
+    .title {
+        background: linear-gradient(135deg, var(--neon-blue, #00ffff), var(--neon-pink, #ff00ff));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow:
+            0 0 30px rgba(0, 255, 255, 0.5),
+            0 0 60px rgba(255, 0, 255, 0.3);
+    }
+
+    .categoryHeader .categoryIcon {
+        color: var(--neon-blue, #00ffff);
+        text-shadow: 0 0 20px var(--neon-blue, #00ffff);
+    }
+
+    .toggleInput:checked+.toggleSlider {
+        background-color: var(--neon-blue, #00ffff);
+        box-shadow:
+            inset 0 0 10px rgba(0, 0, 0, 0.2),
+            0 0 20px var(--neon-blue, #00ffff);
+    }
+
+    .rangeValue {
+        color: var(--neon-blue, #00ffff);
+        text-shadow: 0 0 15px var(--neon-blue, #00ffff);
+    }
+
+    .range::before {
+        background: linear-gradient(90deg, var(--neon-blue, #00ffff), var(--neon-pink, #ff00ff));
+    }
+
+    .actionBar {
+        border-color: var(--neon-blue, #00ffff);
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.3),
+            0 0 30px var(--neon-blue, #00ffff);
+    }
+
+    .saveButton {
+        background: linear-gradient(135deg, var(--neon-blue, #00ffff), var(--neon-green, #00ff00));
+        box-shadow:
+            0 10px 20px rgba(0, 0, 0, 0.3),
+            0 0 20px var(--neon-blue, #00ffff);
+    }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .category:hover,
+    .categoryButton:hover,
+    .saveButton:hover,
+    .cancelButton:hover,
+    .resetButton:hover {
+        transform: none !important;
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .settings::before {
+        display: none;
+    }
+
+    .title {
+        background: white !important;
+        -webkit-text-fill-color: white !important;
+        text-shadow: none !important;
+    }
+
+    .category,
+    .categoryButton,
+    .settingItem {
+        background: black !important;
+        border: 2px solid white !important;
+        box-shadow: none !important;
+    }
+
+    .toggleSlider {
+        background-color: #555 !important;
+        box-shadow: none !important;
+    }
+
+    .toggleInput:checked+.toggleSlider {
+        background-color: white !important;
+        box-shadow: none !important;
+    }
+
+    .select,
+    .range {
+        border: 2px solid white !important;
+        background: black !important;
+        color: white !important;
+    }
+
+    .saveButton,
+    .resetButton {
+        background: white !important;
+        color: black !important;
+        border: 2px solid white !important;
+        box-shadow: none !important;
+    }
+
+    .cancelButton {
+        background: black !important;
+        color: white !important;
+        border: 2px solid white !important;
+        box-shadow: none !important;
+    }
+}
+
+// Print styles
+@media print {
+    .settings {
+        background: white !important;
+        color: black !important;
+    }
+
+    .title {
+        color: black !important;
+        -webkit-text-fill-color: black !important;
+        text-shadow: none !important;
+    }
+
+    .category,
+    .settingItem {
+        background: white !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+
+    .actionBar {
+        display: none !important;
+    }
+}

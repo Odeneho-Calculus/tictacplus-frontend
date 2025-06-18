@@ -1,0 +1,259 @@
+// Base styles and CSS reset
+// This file contains fundamental styling that applies to all elements
+
+// Modern CSS reset based on Josh Comeau's CSS reset
+// https://www.joshwcomeau.com/css/custom-css-reset/
+
+@use 'variables' as vars;
+
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p {
+    overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+    font-family: vars.$font-title;
+}
+
+#root,
+#__next {
+    isolation: isolate;
+}
+
+// Additional base styles
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+
+    @media (prefers-reduced-motion: reduce) {
+        scroll-behavior: auto;
+    }
+}
+
+body {
+    font-family: vars.$font-primary;
+    font-weight: vars.$font-normal;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
+    overflow-x: hidden;
+
+    // Prevent text selection on game elements by default
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    // Prevent touch callouts on mobile
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+// Allow text selection on specific elements
+input,
+textarea,
+[contenteditable],
+.selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+// Button reset
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+// Link styles
+a {
+    color: inherit;
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+}
+
+// Focus styles for accessibility
+:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+// Screen reader only content
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+// Skip link for accessibility
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--color-primary);
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+
+    &:focus {
+        top: 6px;
+    }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+    :root {
+        --color-border: currentColor;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        border: 2px solid currentColor !important;
+    }
+
+    :focus {
+        outline: 3px solid currentColor !important;
+        outline-offset: 2px;
+    }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+// Print styles
+@media print {
+    * {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}
+
+// Custom scrollbar styles
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border-strong);
+    border-radius: 4px;
+
+    &:hover {
+        background: var(--color-primary);
+    }
+}
+
+// Firefox scrollbar
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) var(--color-bg-secondary);
+}
+
+// Selection styles
+::selection {
+    background: var(--color-primary);
+    color: white;
+}
+
+::-moz-selection {
+    background: var(--color-primary);
+    color: white;
+}

@@ -1,0 +1,299 @@
+// Font imports and definitions
+
+// Google Fonts are already imported in index.html
+// This file contains font-related utilities and fallbacks
+
+@use 'variables' as vars;
+
+// Import Google Fonts properly
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+// Font utility classes
+.font-primary {
+  font-family: vars.$font-primary;
+}
+
+.font-display {
+  font-family: vars.$font-display;
+}
+
+.font-mono {
+  font-family: vars.$font-mono;
+}
+
+.font-title {
+  font-family: vars.$font-title;
+}
+
+// Font weight utilities
+.font-light {
+  font-weight: vars.$font-light;
+}
+
+.font-normal {
+  font-weight: vars.$font-normal;
+}
+
+.font-medium {
+  font-weight: vars.$font-medium;
+}
+
+.font-semibold {
+  font-weight: vars.$font-semibold;
+}
+
+.font-bold {
+  font-weight: vars.$font-bold;
+}
+
+.font-extrabold {
+  font-weight: vars.$font-extrabold;
+}
+
+// Font size utilities
+.text-xs {
+  font-size: vars.$text-xs;
+}
+
+.text-sm {
+  font-size: vars.$text-sm;
+}
+
+.text-base {
+  font-size: vars.$text-base;
+}
+
+.text-lg {
+  font-size: vars.$text-lg;
+}
+
+.text-xl {
+  font-size: vars.$text-xl;
+}
+
+.text-2xl {
+  font-size: vars.$text-2xl;
+}
+
+.text-3xl {
+  font-size: vars.$text-3xl;
+}
+
+.text-4xl {
+  font-size: vars.$text-4xl;
+}
+
+.text-5xl {
+  font-size: vars.$text-5xl;
+}
+
+.text-6xl {
+  font-size: vars.$text-6xl;
+}
+
+// Line height utilities
+.leading-none {
+  line-height: vars.$leading-none;
+}
+
+.leading-tight {
+  line-height: vars.$leading-tight;
+}
+
+.leading-snug {
+  line-height: vars.$leading-snug;
+}
+
+.leading-normal {
+  line-height: vars.$leading-normal;
+}
+
+.leading-relaxed {
+  line-height: vars.$leading-relaxed;
+}
+
+.leading-loose {
+  line-height: vars.$leading-loose;
+}
+
+// Text styling utilities
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.normal-case {
+  text-transform: none;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.not-italic {
+  font-style: normal;
+}
+
+// Text decoration
+.underline {
+  text-decoration: underline;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+// Letter spacing
+.tracking-tighter {
+  letter-spacing: -0.05em;
+}
+
+.tracking-tight {
+  letter-spacing: -0.025em;
+}
+
+.tracking-normal {
+  letter-spacing: 0;
+}
+
+.tracking-wide {
+  letter-spacing: 0.025em;
+}
+
+.tracking-wider {
+  letter-spacing: 0.05em;
+}
+
+.tracking-widest {
+  letter-spacing: 0.1em;
+}
+
+// Font smoothing
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.subpixel-antialiased {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+// Responsive font sizes
+@media (max-width: #{vars.$breakpoint-md - 1px}) {
+  .text-responsive-xs {
+    font-size: vars.$text-xs;
+  }
+
+  .text-responsive-sm {
+    font-size: vars.$text-sm;
+  }
+
+  .text-responsive-base {
+    font-size: vars.$text-sm;
+  }
+
+  .text-responsive-lg {
+    font-size: vars.$text-base;
+  }
+
+  .text-responsive-xl {
+    font-size: vars.$text-lg;
+  }
+
+  .text-responsive-2xl {
+    font-size: vars.$text-xl;
+  }
+
+  .text-responsive-3xl {
+    font-size: vars.$text-2xl;
+  }
+
+  .text-responsive-4xl {
+    font-size: vars.$text-3xl;
+  }
+
+  .text-responsive-5xl {
+    font-size: vars.$text-4xl;
+  }
+
+  .text-responsive-6xl {
+    font-size: vars.$text-5xl;
+  }
+}
+
+// Accessibility font size preferences
+@media (prefers-reduced-motion: reduce) {
+
+  // Ensure text remains readable when animations are disabled
+  * {
+    font-size: inherit !important;
+  }
+}
+
+// High contrast mode font adjustments
+@media (prefers-contrast: high) {
+  body {
+    font-weight: vars.$font-medium;
+  }
+
+  .font-light {
+    font-weight: vars.$font-normal;
+  }
+
+  .font-normal {
+    font-weight: vars.$font-medium;
+  }
+}
+
+// Print font optimizations
+@media print {
+  body {
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+  }
+
+  .font-mono {
+    font-family: 'Courier New', monospace;
+  }
+}

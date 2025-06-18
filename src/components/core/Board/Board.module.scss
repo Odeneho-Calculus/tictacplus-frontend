@@ -1,0 +1,291 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mix;
+
+.board {
+  @include mix.game-board;
+  position: relative;
+  user-select: none;
+  perspective: 1000px;
+
+  // Focus styles for accessibility
+  &:focus-within {
+    outline: 2px solid vars.$primary-500;
+    outline-offset: 4px;
+  }
+
+  // Disabled state
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+
+    .cells {
+      filter: grayscale(0.3);
+    }
+  }
+
+  // Thinking state
+  &.thinking {
+    .cells {
+      opacity: 0.7;
+    }
+  }
+
+  // Game over state
+  &.gameOver {
+    .cells {
+      pointer-events: none;
+    }
+  }
+
+  // Show coordinates
+  &.showCoordinates {
+    .coordinates {
+      opacity: 1;
+    }
+  }
+}
+
+.cells {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: vars.$spacing-2;
+  width: 100%;
+  height: 100%;
+  place-items: stretch;
+  transition: all vars.$transition-base;
+
+  @include mix.mobile {
+    gap: vars.$spacing-1;
+  }
+}
+
+.cellWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+// Thinking overlay
+.thinkingOverlay {
+  @include mix.absolute-full;
+  @include mix.flex-center;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  border-radius: vars.$rounded-xl;
+  z-index: 10;
+}
+
+.thinkingIndicator {
+  @include mix.flex-column-center;
+  gap: vars.$spacing-3;
+  color: white;
+  text-align: center;
+}
+
+.dots {
+  display: flex;
+  gap: vars.$spacing-1;
+
+  span {
+    @include mix.circle(8px);
+    background: vars.$primary-400;
+    animation: loadingDots 1.4s infinite ease-in-out both;
+
+    &:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0s;
+    }
+  }
+}
+
+.thinkingText {
+  font-size: vars.$text-sm;
+  font-weight: vars.$font-medium;
+  opacity: 0.9;
+}
+
+// Coordinates
+.coordinates {
+  @include mix.absolute-full;
+  @include mix.grid-center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: vars.$spacing-2;
+  opacity: 0;
+  transition: opacity vars.$transition-base;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.coordinate {
+  @include mix.flex-center;
+  font-size: vars.$text-xs;
+  font-weight: vars.$font-bold;
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: vars.$rounded;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}
+
+// Responsive design
+@include mix.mobile {
+  .board {
+    width: vars.$board-size-mobile;
+    height: vars.$board-size-mobile;
+  }
+
+  .thinkingText {
+    font-size: vars.$text-xs;
+  }
+
+  .coordinate {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    top: 2px;
+    left: 2px;
+  }
+}
+
+// Theme variations
+[data-theme="light"] {
+  .board {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: vars.$shadow-xl;
+  }
+
+  .thinkingOverlay {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .thinkingIndicator {
+    color: vars.$dark-700;
+  }
+
+  .dots span {
+    background: vars.$primary-600;
+  }
+}
+
+[data-theme="dark"] {
+  .board {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: vars.$shadow-2xl;
+  }
+
+  .thinkingOverlay {
+    background: rgba(0, 0, 0, 0.6);
+  }
+}
+
+[data-theme="neon"] {
+  .board {
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid vars.$neon-primary;
+    box-shadow:
+      vars.$shadow-2xl,
+      0 0 20px rgba(vars.$neon-primary, 0.3),
+      inset 0 0 20px rgba(vars.$neon-primary, 0.1);
+  }
+
+  .thinkingOverlay {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid vars.$neon-primary;
+  }
+
+  .thinkingIndicator {
+    color: vars.$neon-primary;
+  }
+
+  .dots span {
+    background: vars.$neon-accent;
+    box-shadow: 0 0 10px rgba(vars.$neon-accent, 0.5);
+  }
+
+  .coordinate {
+    color: vars.$neon-primary;
+    background: rgba(vars.$neon-primary, 0.1);
+    border: 1px solid rgba(vars.$neon-primary, 0.3);
+  }
+}
+
+// Animations
+@keyframes loadingDots {
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .board {
+    border: 3px solid currentColor;
+    background: white;
+  }
+
+  [data-theme="dark"] .board {
+    background: black;
+    border-color: white;
+  }
+
+  .thinkingOverlay {
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid white;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .board {
+    transition: none;
+  }
+
+  .cells {
+    transition: none;
+  }
+
+  .coordinates {
+    transition: none;
+  }
+
+  .dots span {
+    animation: none;
+  }
+}
+
+// Print styles
+@media print {
+  .board {
+    background: white !important;
+    border: 2px solid black !important;
+    box-shadow: none !important;
+  }
+
+  .thinkingOverlay,
+  .coordinates {
+    display: none !important;
+  }
+}

@@ -1,0 +1,79 @@
+// Simplified Sass Functions for TicTac+ - Memory Optimized
+@use 'sass:color';
+@use 'sass:math';
+@use 'sass:string';
+@use 'sass:list';
+@use 'sass:map';
+
+// Basic color blend function
+@function alpha-blend($foreground, $background, $alpha: 1) {
+    @if $alpha ==1 {
+        @return $foreground;
+    }
+
+    $r1: color.red($foreground);
+    $g1: color.green($foreground);
+    $b1: color.blue($foreground);
+
+    $r2: color.red($background);
+    $g2: color.green($background);
+    $b2: color.blue($background);
+
+    $r: math.round($r1 * $alpha + $r2 * (1 - $alpha));
+    $g: math.round($g1 * $alpha + $g2 * (1 - $alpha));
+    $b: math.round($b1 * $alpha + $b2 * (1 - $alpha));
+
+    @return rgb($r, $g, $b);
+}
+
+// Spacing function
+@function spacing($multiplier) {
+    @return $multiplier * 0.25rem;
+}
+
+// Convert px to rem
+@function rem($pixels, $base: 16px) {
+    @return math.div($pixels, $base) * 1rem;
+}
+
+// Convert px to em
+@function em($pixels, $context: 16px) {
+    @return math.div($pixels, $context) * 1em;
+}
+
+// Strip units
+@function strip-unit($number) {
+    @if type-of($number)=='number' and not unitless($number) {
+        @return math.div($number, $number * 0 + 1);
+    }
+
+    @return $number;
+}
+
+// CSS custom property
+@function css-var($name, $fallback: null) {
+    @if $fallback {
+        @return var(--#{$name}, #{$fallback});
+    }
+
+    @else {
+        @return var(--#{$name});
+    }
+}
+
+// Map deep get
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map.get($map, $key);
+    }
+
+    @return $map;
+}
+
+// Simple easing curves
+$ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+$ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+$ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+$ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+$ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);

@@ -1,0 +1,356 @@
+// TicTac+ Main Stylesheet
+// Import order is important for proper cascading
+
+// 1. Variables and configuration
+
+// 2. Mixins and utilities
+
+// 3. Base styles and resets
+@use 'variables' as vars;
+@use 'mixins' as mix;
+
+@use 'base';
+
+// 4. Typography
+@use 'fonts';
+
+// 5. Theme definitions
+@use 'themes';
+
+// 6. Global utilities
+@use 'utilities';
+
+// 7. Component-specific styles (if any global ones)
+// Individual component styles are imported in their respective components
+
+// Global styles that need to be available everywhere
+:root {
+  // CSS custom properties for dynamic theming
+  --font-primary: #{vars.$font-primary};
+  --font-display: #{vars.$font-display};
+  --font-mono: #{vars.$font-mono};
+
+  // Spacing scale
+  --spacing-1: #{vars.$spacing-1};
+  --spacing-2: #{vars.$spacing-2};
+  --spacing-3: #{vars.$spacing-3};
+  --spacing-4: #{vars.$spacing-4};
+  --spacing-5: #{vars.$spacing-5};
+  --spacing-6: #{vars.$spacing-6};
+  --spacing-8: #{vars.$spacing-8};
+  --spacing-10: #{vars.$spacing-10};
+  --spacing-12: #{vars.$spacing-12};
+  --spacing-16: #{vars.$spacing-16};
+  --spacing-20: #{vars.$spacing-20};
+  --spacing-24: #{vars.$spacing-24};
+
+  // Border radius
+  --rounded-sm: #{vars.$rounded-sm};
+  --rounded-md: #{vars.$rounded-md};
+  --rounded-lg: #{vars.$rounded-lg};
+  --rounded-xl: #{vars.$rounded-xl};
+  --rounded-2xl: #{vars.$rounded-2xl};
+  --rounded-full: #{vars.$rounded-full};
+
+  // Transitions
+  --transition-fast: #{vars.$transition-fast};
+  --transition-base: #{vars.$transition-base};
+  --transition-slow: #{vars.$transition-slow};
+
+  // Z-index scale
+  --z-dropdown: #{vars.$z-dropdown};
+  --z-sticky: #{vars.$z-sticky};
+  --z-fixed: #{vars.$z-fixed};
+  --z-modal-backdrop: #{vars.$z-modal-backdrop};
+  --z-modal: #{vars.$z-modal};
+  --z-popover: #{vars.$z-popover};
+  --z-tooltip: #{vars.$z-tooltip};
+  --z-toast: #{vars.$z-toast};
+}
+
+// Global reset and base styles
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+
+  // Smooth scrolling
+  scroll-behavior: smooth;
+
+  // Prevent horizontal scroll
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-primary);
+  font-size: vars.$text-base;
+  font-weight: vars.$font-normal;
+  line-height: vars.$leading-normal;
+  color: var(--color-text-primary);
+  background: var(--color-bg-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  // Prevent text selection on game elements
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  // Prevent touch callouts on mobile
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+// Allow text selection on specific elements
+input,
+textarea,
+[contenteditable],
+.selectable {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+// Root container
+#root {
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+}
+
+// Focus styles for accessibility
+:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+// Button reset
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Link styles
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-base);
+
+  &:hover {
+    color: var(--color-secondary);
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// Image optimization
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// SVG optimization
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// Screen reader only content
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Skip link for accessibility
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+
+  &:focus {
+    top: 6px;
+  }
+}
+
+// Loading states
+.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+// Disabled states
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: currentColor;
+    --color-border-light: currentColor;
+    --color-border-strong: currentColor;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    border: 2px solid currentColor !important;
+  }
+
+  :focus {
+    outline: 3px solid currentColor !important;
+    outline-offset: 2px;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+// Print styles
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  @page {
+    margin: 0.5in;
+  }
+}
+
+// Dark mode media query fallback
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+  }
+}
+
+// Light mode media query fallback
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    color-scheme: light;
+  }
+}
+
+// Custom scrollbar styles
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--color-primary);
+  }
+}
+
+// Firefox scrollbar
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) var(--color-bg-secondary);
+}
+
+// Selection styles
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--color-primary);
+  color: white;
+}

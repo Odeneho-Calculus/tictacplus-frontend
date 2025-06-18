@@ -1,0 +1,584 @@
+@use '../../../styles/variables' as vars;
+@use '../../../styles/mixins' as mix;
+
+// Base Button Styles
+.button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: vars.$rounded-lg;
+    font-family: vars.$font-primary;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+
+    // Disable tap highlight on mobile
+    -webkit-tap-highlight-color: transparent;
+
+    // Disabled state
+    &:disabled,
+    &.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    // Focus state
+    &:focus {
+        outline: none;
+    }
+
+    // Loading state
+    &.loading {
+        cursor: wait;
+    }
+}
+
+// Button Background
+.buttonBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+// Button Shine Effect
+.buttonShine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            transparent 100%);
+    z-index: 2;
+    transition: left 0.5s ease;
+    pointer-events: none;
+}
+
+// Button Glow Effect
+.buttonGlow {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+// Button Edge Effect (for 3D)
+.buttonEdge {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 0;
+    border-radius: inherit;
+    z-index: 0;
+    opacity: 0.3;
+    transition: all 0.3s ease;
+    transform: translateZ(-3px);
+    pointer-events: none;
+}
+
+// Button Content
+.buttonContent {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transform: translateZ(0);
+    transition: transform 0.3s ease;
+}
+
+// Button Text
+.buttonText {
+    position: relative;
+    z-index: 1;
+}
+
+// Button Icon
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+
+    &.left {
+        margin-right: 0.5rem;
+    }
+
+    &.right {
+        margin-left: 0.5rem;
+    }
+}
+
+// Button Sizes
+.small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border-radius: vars.$rounded-md;
+}
+
+.medium {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: vars.$rounded-lg;
+}
+
+.large {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    border-radius: vars.$rounded-xl;
+}
+
+// Button Variants
+.primary {
+    color: white;
+    background-color: var(--color-primary, #{vars.$primary-500});
+
+    .buttonBg {
+        background: linear-gradient(135deg,
+            var(--color-primary, #{vars.$primary-500}) 0%,
+            var(--color-primary-dark, #{vars.$primary-600}) 100%);
+    }
+
+    .buttonEdge {
+        background-color: var(--color-primary-dark, #{vars.$primary-700});
+    }
+
+    .buttonGlow {
+        background: radial-gradient(circle,
+            var(--color-primary, #{vars.$primary-500}) 0%,
+            transparent 70%);
+    }
+
+    &:hover {
+        color: white;
+        transform: translateY(-2px);
+
+        .buttonBg {
+            background: linear-gradient(135deg,
+                var(--color-primary-light, #{vars.$primary-400}) 0%,
+                var(--color-primary, #{vars.$primary-500}) 100%);
+        }
+
+        .buttonShine {
+            left: 100%;
+        }
+
+        .buttonGlow {
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
+
+        .buttonBg {
+            background: var(--color-primary-dark, #{vars.$primary-600});
+        }
+    }
+}
+
+.secondary {
+    color: white;
+    background-color: var(--color-secondary, #{vars.$secondary-500});
+
+    .buttonBg {
+        background: linear-gradient(135deg,
+            var(--color-secondary, #{vars.$secondary-500}) 0%,
+            var(--color-secondary-dark, #{vars.$secondary-600}) 100%);
+    }
+
+    .buttonEdge {
+        background-color: var(--color-secondary-dark, #{vars.$secondary-700});
+    }
+
+    .buttonGlow {
+        background: radial-gradient(circle,
+            var(--color-secondary, #{vars.$secondary-500}) 0%,
+            transparent 70%);
+    }
+
+    &:hover {
+        color: white;
+        transform: translateY(-2px);
+
+        .buttonBg {
+            background: linear-gradient(135deg,
+                var(--color-secondary-light, #{vars.$secondary-400}) 0%,
+                var(--color-secondary, #{vars.$secondary-500}) 100%);
+        }
+
+        .buttonShine {
+            left: 100%;
+        }
+
+        .buttonGlow {
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
+
+        .buttonBg {
+            background: var(--color-secondary-dark, #{vars.$secondary-600});
+        }
+    }
+}
+
+.outline {
+    color: var(--color-primary, #{vars.$primary-500});
+    background-color: transparent;
+    border: 2px solid var(--color-primary, #{vars.$primary-500});
+
+    .buttonBg {
+        background: transparent;
+    }
+
+    &:hover {
+        color: white;
+        transform: translateY(-2px);
+
+        .buttonBg {
+            background: var(--color-primary, #{vars.$primary-500});
+        }
+
+        .buttonShine {
+            left: 100%;
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
+
+        .buttonBg {
+            background: var(--color-primary-dark, #{vars.$primary-600});
+        }
+    }
+}
+
+.ghost {
+    color: var(--color-primary, #{vars.$primary-500});
+    background-color: transparent;
+
+    .buttonBg {
+        background: transparent;
+    }
+
+    &:hover {
+        color: var(--color-primary-dark, #{vars.$primary-600});
+        transform: translateY(-2px);
+
+        .buttonBg {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .buttonShine {
+            left: 100%;
+        }
+    }
+
+    &:active {
+        transform: translateY(0);
+
+        .buttonBg {
+            background: rgba(0, 212, 255, 0.2);
+        }
+    }
+}
+
+.neon {
+    color: white;
+    text-shadow: 0 0 5px var(--neon-blue, #00d4ff);
+    font-family: vars.$font-gaming;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0);
+    transition: all 0.3s ease;
+
+    // Simple border glow
+    &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg,
+                var(--neon-blue, #00d4ff) 0%,
+                var(--neon-pink, #ff006e) 50%,
+                var(--neon-blue, #00d4ff) 100%);
+        border-radius: inherit;
+        z-index: -1;
+        opacity: 0.5;
+        background-size: 200% 200%;
+        animation: borderGlow 3s ease infinite;
+        filter: blur(1px);
+    }
+
+    .buttonBg {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid var(--neon-blue, #00d4ff);
+        box-shadow:
+            inset 0 0 10px rgba(0, 212, 255, 0.2),
+            0 0 10px rgba(0, 212, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .buttonEdge {
+        background: rgba(0, 212, 255, 0.1);
+        transform: translateZ(-5px);
+        opacity: 0.3;
+    }
+
+    .buttonGlow {
+        background: radial-gradient(circle,
+                var(--neon-blue, #00d4ff) 0%,
+                transparent 70%);
+        filter: blur(10px);
+        opacity: 0.3;
+    }
+
+    .buttonContent {
+        transform: translateZ(5px);
+        position: relative;
+        z-index: 5;
+    }
+
+    .buttonShine {
+        background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent 100%);
+        z-index: 4;
+    }
+
+    &:hover {
+        color: white;
+        text-shadow: 0 0 8px var(--neon-blue, #00d4ff);
+        transform: perspective(1000px) translateZ(5px) translateY(-2px) scale(1.03);
+
+        .buttonBg {
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow:
+                inset 0 0 15px rgba(0, 212, 255, 0.3),
+                0 0 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .buttonShine {
+            left: 100%;
+            transition: left 0.5s ease;
+        }
+
+        .buttonGlow {
+            opacity: 0.5;
+        }
+
+        .buttonEdge {
+            opacity: 0.5;
+        }
+
+        &::before {
+            opacity: 0.7;
+        }
+    }
+
+    &:active {
+        transform: perspective(1000px) translateZ(2px) translateY(-1px) scale(0.98);
+
+        .buttonBg {
+            box-shadow:
+                inset 0 0 10px rgba(0, 212, 255, 0.2),
+                0 0 8px rgba(0, 212, 255, 0.3);
+        }
+    }
+}
+
+.gaming {
+    color: white;
+    font-family: vars.$font-heading;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+    .buttonBg {
+        background: linear-gradient(135deg,
+                rgba(255, 0, 110, 0.8) 0%,
+                rgba(131, 56, 236, 0.8) 50%,
+                rgba(0, 212, 255, 0.8) 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 3s ease infinite;
+    }
+
+    .buttonEdge {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .buttonContent {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+        .buttonShine {
+            left: 100%;
+        }
+
+        .buttonBg {
+            background-size: 150% 150%;
+        }
+    }
+
+    &:active {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+}
+
+// Animations
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes borderGlow {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+// Responsive Design
+@media (max-width: vars.$breakpoint-sm) {
+    .button {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .large {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .small {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+    }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+    .button {
+        transition: none !important;
+
+        .buttonBg,
+        .buttonShine,
+        .buttonGlow,
+        .buttonEdge,
+        .buttonContent,
+        .icon {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        &::before,
+        &::after {
+            animation: none !important;
+        }
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .button {
+        border: 2px solid currentColor !important;
+        background: transparent !important;
+        color: inherit !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+
+        .buttonBg,
+        .buttonShine,
+        .buttonGlow,
+        .buttonEdge {
+            display: none !important;
+        }
+
+        &::before,
+        &::after {
+            display: none !important;
+        }
+    }
+}
+
+// Print styles
+@media print {
+    .button {
+        background: transparent !important;
+        color: #000 !important;
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+
+        .buttonBg,
+        .buttonShine,
+        .buttonGlow,
+        .buttonEdge {
+            display: none !important;
+        }
+
+        &::before,
+        &::after {
+            display: none !important;
+        }
+    }
+}
