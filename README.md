@@ -13,8 +13,8 @@ A cutting-edge, animated Tic Tac Toe game with real-time multiplayer capabilitie
 
 1. **Clone and setup**
 ```bash
-git clone <repository-url>
-cd tictac-plus
+git clone https://github.com/Odeneho-Calculus/tictacplus-frontend.git
+cd tictacplus-frontend
 ```
 
 2. **Install dependencies**
