@@ -56,7 +56,7 @@
     "sass": "^1.77.6",
     "serve": "^14.2.4",
     "tailwindcss": "^3.3.3",
-    "vite": "^4.4.5"
+    "vite": "^5.4.20"
   },
   "browserslist": {
     "production": [
